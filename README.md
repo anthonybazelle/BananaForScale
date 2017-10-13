@@ -1,1 +1,1 @@
-![alt text](https://res.cloudinary.com/teepublic/image/private/s--FPr6aTOT--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1492628239/production/designs/1485634_1.jpg)
+![alt text](http://www.monkeymods.com/wp-content/uploads/2015/11/Rick-And-Morty-Show-Me-What-You-Got-Moon.png)
