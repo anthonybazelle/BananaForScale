@@ -1,26 +1,20 @@
-#pragma once
+#ifndef ENGINE_H
+#define ENGINE_H
 
-#include <stddef.h>
-#include <vector>
-#include <exception>
-#include <iostream>
+#include <QtWidgets/QMainWindow>
+#include "ui_engine.h"
 
-#include "Scene.h"
-
-class Engine
+class Engine : public QMainWindow
 {
-public:
-	Engine(void);
-	~Engine(void);
+	Q_OBJECT
 
-	Engine* GetInstance();
+public:
+	Engine(QWidget *parent = 0);
+	~Engine();
 
 private:
-	static Engine* instance;
-	std::vector<Scene*> listScene; // Multiple Scene Management
-
-	int AddScene(Scene* s);
-	int RemoveScene(Scene* s);
-	Scene* RetrieveSceneByName(std::string name);
+	Ui::EngineClass ui;
+	void ExitApplication();
 };
 
+#endif // ENGINE_H
