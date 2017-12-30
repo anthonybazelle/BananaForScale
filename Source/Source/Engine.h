@@ -2,6 +2,8 @@
 #define ENGINE_H
 
 #include <QtWidgets/QMainWindow>
+#include <QtCore>
+#include <qpushbutton.h>
 #include "ui_engine.h"
 
 class Engine : public QMainWindow
@@ -14,6 +16,9 @@ public:
 
 private:
 	Ui::EngineClass ui;
+
+	// C'est très particulier comme syntax C++ mais c'est propre à Qt
+	private slots:
 	void ExitApplication();
 };
 

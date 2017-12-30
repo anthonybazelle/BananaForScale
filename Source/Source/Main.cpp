@@ -22,9 +22,8 @@ int main(int argc, char *argv[])
 	
 
 	QApplication a(argc, argv);
-	Engine w;
-	w.show();
-
+	Engine engine;
+	engine.show();
 	/*
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE);
