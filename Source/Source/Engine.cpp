@@ -7,6 +7,7 @@ Engine::Engine(QWidget *parent)
 
 	const QString qtVersion = QLatin1String("Close");
 	ui.exitButton->setText(qtVersion);
+	
 	connect(ui.exitButton, SIGNAL(clicked()), this, SLOT(ExitApplication()));
 }
 

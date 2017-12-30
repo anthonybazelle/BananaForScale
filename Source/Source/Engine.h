@@ -16,6 +16,7 @@ public:
 
 private:
 	Ui::EngineClass ui;
+	
 
 	// C'est très particulier comme syntax C++ mais c'est propre à Qt
 	private slots:
