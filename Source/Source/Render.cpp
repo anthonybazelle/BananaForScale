@@ -1,8 +1,8 @@
 #include "Render.h"
 
-Render::Render(QGLWidget* parent) : QGLWidget(parent)
+Render::Render(QWidget* parent) : QGLWidget(parent)
 {
-	InitGL();
+	initializeGL();
 }
 
 Render::~Render(void)
@@ -21,9 +21,9 @@ QSize Render::SizeHint() const
 }
 
 
-void Render::InitGL()
+void Render::initializeGL()
 {
-	qglClearColor(QColor(50 ,50 ,50)); // appel glClearColor, si si c'est vrai
+	glClearColor(0.2, 0.2, 0.2, 1);
 
 	//this->logo = new QtLogo(this, 64);
 	//this->logo->SetColor(qtGreen.dark());
@@ -39,7 +39,7 @@ void Render::InitGL()
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
 
-void Render::ResizeGL(int width, int height)
+void Render::resizeGL(int width, int height)
 {
 	int side = qMin(width, height);
 	glViewport((width - side) / 2, (height - side) / 2, side, side);
@@ -54,11 +54,13 @@ void Render::ResizeGL(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void Render::DrawGL()
+void Render::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-	glTranslatef(0.0, 0.0, -10.0);
+	glColor3f(1, 0, 0);
+	glutSolidSphere(1, 20, 20);
+	//glLoadIdentity();
+	//glTranslatef(0.0, 0.0, -10.0);
 	//glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
 	//glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
 	//glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);

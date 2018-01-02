@@ -3,6 +3,7 @@
 //#include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <QGLWidget>
+#include <QOpenGLWidget>
 #include "ui_engine.h"
 #include <qevent.h>
 // Etat donne qu'il serait cool de gerer plusieurs scene a la fois, il faudrait donc gerer plusieurs instance de Render a la fois
@@ -12,20 +13,23 @@
 class Render : public QGLWidget
 {
 public:
-	Render(QGLWidget* parent = 0);
+	Render(QWidget* parent = 0);
 	~Render(void);
 
 	QSize MinimumSizeHint() const;
 	QSize SizeHint() const;
 
 protected:
-	void InitGL();
-	void DrawGL();
-	void ResizeGL(int width, int height);
+	void initializeGL();
+	void paintGL();
+	void resizeGL(int width, int height);
 	void MousePressEvent(QMouseEvent* event);
 	void MouseMoveEvent(QMouseEvent* event);
 
 private:
 	QPoint lastPos;
+
+private slots:
+
 };
 

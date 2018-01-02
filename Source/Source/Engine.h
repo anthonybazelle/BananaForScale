@@ -11,7 +11,7 @@ class Engine : public QMainWindow
 	Q_OBJECT
 
 public:
-	Engine(QWidget *parent = 0);
+	explicit Engine(QWidget *parent = 0);
 	~Engine();
 
 private:

@@ -6,9 +6,10 @@ Engine::Engine(QWidget *parent)
 	ui.setupUi(this);
 
 	const QString qtVersion = QLatin1String("Close");
-	ui.exitButton->setText(qtVersion);
-	
-	connect(ui.exitButton, SIGNAL(clicked()), this, SLOT(ExitApplication()));
+	ui.exitBtn->setText(qtVersion);
+	ui.selectComponent->addItem("Cube");
+	ui.selectComponent->addItem("Sphere");
+	connect(ui.exitBtn, SIGNAL(clicked()), this, SLOT(ExitApplication()));
 }
 
 Engine::~Engine()
