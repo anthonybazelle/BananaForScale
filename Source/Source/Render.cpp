@@ -2,7 +2,6 @@
 
 Render::Render(QWidget* parent) : QGLWidget(parent)
 {
-	initializeGL();
 }
 
 Render::~Render(void)

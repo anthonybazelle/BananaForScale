@@ -18,6 +18,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QOpenGLWidget>
 #include <QtWidgets/QPushButton>
@@ -33,6 +34,10 @@ QT_BEGIN_NAMESPACE
 class Ui_EngineClass
 {
 public:
+    QAction *actionNew_scene;
+    QAction *actionOpen_Scene;
+    QAction *actionSave_current_Scene;
+    QAction *actionSave_all_Scenes;
     QWidget *centralWidget;
     QPushButton *exitBtn;
     QTabWidget *sceneTab;
@@ -51,6 +56,7 @@ public:
     QWidget *page_2;
     QComboBox *selectComponent;
     QMenuBar *menuBar;
+    QMenu *fileMenu;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -60,6 +66,14 @@ public:
             EngineClass->setObjectName(QStringLiteral("EngineClass"));
         EngineClass->setWindowModality(Qt::NonModal);
         EngineClass->resize(1123, 716);
+        actionNew_scene = new QAction(EngineClass);
+        actionNew_scene->setObjectName(QStringLiteral("actionNew_scene"));
+        actionOpen_Scene = new QAction(EngineClass);
+        actionOpen_Scene->setObjectName(QStringLiteral("actionOpen_Scene"));
+        actionSave_current_Scene = new QAction(EngineClass);
+        actionSave_current_Scene->setObjectName(QStringLiteral("actionSave_current_Scene"));
+        actionSave_all_Scenes = new QAction(EngineClass);
+        actionSave_all_Scenes->setObjectName(QStringLiteral("actionSave_all_Scenes"));
         centralWidget = new QWidget(EngineClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         exitBtn = new QPushButton(centralWidget);
@@ -94,7 +108,7 @@ public:
         treeView->setGeometry(QRect(0, 20, 161, 301));
         gameObjectList = new QLabel(centralWidget);
         gameObjectList->setObjectName(QStringLiteral("gameObjectList"));
-        gameObjectList->setGeometry(QRect(10, 0, 91, 16));
+        gameObjectList->setGeometry(QRect(10, 0, 111, 16));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(10, 340, 111, 16));
@@ -103,11 +117,11 @@ public:
         toolBox->setGeometry(QRect(0, 360, 151, 291));
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
-        page->setGeometry(QRect(0, 0, 151, 237));
+        page->setGeometry(QRect(0, 0, 151, 229));
         toolBox->addItem(page, QStringLiteral("Page 1"));
         page_2 = new QWidget();
         page_2->setObjectName(QStringLiteral("page_2"));
-        page_2->setGeometry(QRect(0, 0, 151, 237));
+        page_2->setGeometry(QRect(0, 0, 151, 229));
         selectComponent = new QComboBox(page_2);
         selectComponent->setObjectName(QStringLiteral("selectComponent"));
         selectComponent->setGeometry(QRect(0, 0, 151, 22));
@@ -116,7 +130,9 @@ public:
         EngineClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(EngineClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1123, 21));
+        menuBar->setGeometry(QRect(0, 0, 1123, 26));
+        fileMenu = new QMenu(menuBar);
+        fileMenu->setObjectName(QStringLiteral("fileMenu"));
         EngineClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(EngineClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -125,9 +141,15 @@ public:
         statusBar->setObjectName(QStringLiteral("statusBar"));
         EngineClass->setStatusBar(statusBar);
 
+        menuBar->addAction(fileMenu->menuAction());
+        fileMenu->addAction(actionNew_scene);
+        fileMenu->addAction(actionOpen_Scene);
+        fileMenu->addAction(actionSave_current_Scene);
+        fileMenu->addAction(actionSave_all_Scenes);
+
         retranslateUi(EngineClass);
 
-        sceneTab->setCurrentIndex(1);
+        sceneTab->setCurrentIndex(0);
         toolBox->setCurrentIndex(1);
 
 
@@ -137,6 +159,10 @@ public:
     void retranslateUi(QMainWindow *EngineClass)
     {
         EngineClass->setWindowTitle(QApplication::translate("EngineClass", "Engine", Q_NULLPTR));
+        actionNew_scene->setText(QApplication::translate("EngineClass", "New scene", Q_NULLPTR));
+        actionOpen_Scene->setText(QApplication::translate("EngineClass", "Open Scene", Q_NULLPTR));
+        actionSave_current_Scene->setText(QApplication::translate("EngineClass", "Save current Scene", Q_NULLPTR));
+        actionSave_all_Scenes->setText(QApplication::translate("EngineClass", "Save all Scenes", Q_NULLPTR));
         exitBtn->setText(QApplication::translate("EngineClass", "Exit", Q_NULLPTR));
         sceneTab->setTabText(sceneTab->indexOf(tab), QApplication::translate("EngineClass", "Tab 1", Q_NULLPTR));
         sceneTab->setTabText(sceneTab->indexOf(tab_2), QApplication::translate("EngineClass", "Tab 2", Q_NULLPTR));
@@ -148,6 +174,7 @@ public:
         toolBox->setItemText(toolBox->indexOf(page), QApplication::translate("EngineClass", "Page 1", Q_NULLPTR));
         selectComponent->setCurrentText(QString());
         toolBox->setItemText(toolBox->indexOf(page_2), QApplication::translate("EngineClass", "Page 2", Q_NULLPTR));
+        fileMenu->setTitle(QApplication::translate("EngineClass", "File", Q_NULLPTR));
     } // retranslateUi
 
 };

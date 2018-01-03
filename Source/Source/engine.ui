@@ -40,7 +40,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -127,7 +127,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>91</width>
+      <width>111</width>
       <height>16</height>
      </rect>
     </property>
@@ -166,7 +166,7 @@
        <x>0</x>
        <y>0</y>
        <width>151</width>
-       <height>237</height>
+       <height>229</height>
       </rect>
      </property>
      <attribute name="label">
@@ -179,7 +179,7 @@
        <x>0</x>
        <y>0</y>
        <width>151</width>
-       <height>237</height>
+       <height>229</height>
       </rect>
      </property>
      <attribute name="label">
@@ -210,9 +210,19 @@
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="fileMenu">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew_scene"/>
+    <addaction name="actionOpen_Scene"/>
+    <addaction name="actionSave_current_Scene"/>
+    <addaction name="actionSave_all_Scenes"/>
+   </widget>
+   <addaction name="fileMenu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -223,6 +233,26 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNew_scene">
+   <property name="text">
+    <string>New scene</string>
+   </property>
+  </action>
+  <action name="actionOpen_Scene">
+   <property name="text">
+    <string>Open Scene</string>
+   </property>
+  </action>
+  <action name="actionSave_current_Scene">
+   <property name="text">
+    <string>Save current Scene</string>
+   </property>
+  </action>
+  <action name="actionSave_all_Scenes">
+   <property name="text">
+    <string>Save all Scenes</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
