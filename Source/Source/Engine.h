@@ -20,6 +20,13 @@ public:
 private:
 	static Engine* instance;
 	Ui::EngineClass ui;
+	QMenu* menuFile;
+	QAction* actNewScene;
+	QAction* actOpenScene;
+	QAction* actSaveScene;
+	QAction* actSaveAllScene;
+
+	void CreateMenuBar();
 
 	std::vector<Scene*> listScene;
 	// C'est très particulier comme syntax C++ mais c'est propre à Qt

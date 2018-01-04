@@ -18,7 +18,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QOpenGLWidget>
 #include <QtWidgets/QPushButton>
@@ -56,7 +55,6 @@ public:
     QWidget *page_2;
     QComboBox *selectComponent;
     QMenuBar *menuBar;
-    QMenu *fileMenu;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -131,8 +129,6 @@ public:
         menuBar = new QMenuBar(EngineClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 1123, 26));
-        fileMenu = new QMenu(menuBar);
-        fileMenu->setObjectName(QStringLiteral("fileMenu"));
         EngineClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(EngineClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -140,12 +136,6 @@ public:
         statusBar = new QStatusBar(EngineClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         EngineClass->setStatusBar(statusBar);
-
-        menuBar->addAction(fileMenu->menuAction());
-        fileMenu->addAction(actionNew_scene);
-        fileMenu->addAction(actionOpen_Scene);
-        fileMenu->addAction(actionSave_current_Scene);
-        fileMenu->addAction(actionSave_all_Scenes);
 
         retranslateUi(EngineClass);
 
@@ -174,7 +164,6 @@ public:
         toolBox->setItemText(toolBox->indexOf(page), QApplication::translate("EngineClass", "Page 1", Q_NULLPTR));
         selectComponent->setCurrentText(QString());
         toolBox->setItemText(toolBox->indexOf(page_2), QApplication::translate("EngineClass", "Page 2", Q_NULLPTR));
-        fileMenu->setTitle(QApplication::translate("EngineClass", "File", Q_NULLPTR));
     } // retranslateUi
 
 };

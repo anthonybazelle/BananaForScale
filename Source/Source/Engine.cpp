@@ -61,6 +61,38 @@ void Engine::SaveAllScenes()
 	// TODO : Serialiser dans un XML les gameObjects des Scenes ouvertes dans l'engine, ainsi que leur position (du point de pivot deja)
 }
 
+void Engine::CreateMenuBar()
+{
+	this->actNewScene = new QAction("New Scene", this);
+	this->actOpenScene = new QAction("Open Scene", this);
+	this->actSaveScene = new QAction("Save Scene", this);
+	this->actSaveAllScene = new QAction("Save all Scene", this);
+
+	this->actNewScene->setShortcuts(QKeySequence::New);
+	this->actNewScene->setStatusTip(tr("Create a new Scene"));
+	connect(this->actNewScene, &QAction::triggered, this, &Engine::CreateNewScene);
+
+	this->actOpenScene->setShortcuts(QKeySequence::Open);
+	this->actOpenScene->setStatusTip(tr("Open Scene"));
+	connect(this->actOpenScene, &QAction::triggered, this, &Engine::OpenScene);
+
+	this->actSaveScene->setShortcuts(QKeySequence::Save);
+	this->actSaveScene->setStatusTip(tr("Save Scene"));
+	connect(this->actSaveScene, &QAction::triggered, this, &Engine::SaveCurrentScene);
+
+	this->actSaveAllScene->setShortcuts(QKeySequence::Save);
+	this->actSaveAllScene->setStatusTip(tr("Save all Scene"));
+	connect(this->actSaveAllScene, &QAction::triggered, this, &Engine::SaveAllScenes);
+
+	this->menuFile->addAction(actNewScene);
+	this->menuFile->addAction(actOpenScene);
+	this->menuFile->addAction(actSaveScene);
+	this->menuFile->addAction(actSaveAllScene);
+
+	this->menuBar()->addMenu(menuFile);
+
+}
+
 std::vector<Scene*> Engine::GetListScene()
 {
 	return this->listScene;

@@ -213,16 +213,6 @@
      <height>26</height>
     </rect>
    </property>
-   <widget class="QMenu" name="fileMenu">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionNew_scene"/>
-    <addaction name="actionOpen_Scene"/>
-    <addaction name="actionSave_current_Scene"/>
-    <addaction name="actionSave_all_Scenes"/>
-   </widget>
-   <addaction name="fileMenu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
