@@ -17,6 +17,9 @@ public:
 	Engine* getInstance();
 	~Engine();
 
+protected:
+	void contextMenuEvent(QContextMenuEvent *event) override;
+
 private:
 	static Engine* instance;
 	Ui::EngineClass ui;

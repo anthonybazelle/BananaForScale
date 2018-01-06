@@ -14,6 +14,7 @@ Engine::Engine(QWidget *parent)
 	ui.selectComponent->addItem("Cube");
 	ui.selectComponent->addItem("Sphere");
 	connect(ui.exitBtn, SIGNAL(clicked()), this, SLOT(ExitApplication()));
+	CreateMenuBar();
 	//ui.
 	//connect(ui.menuBar->adda)
 }
@@ -22,6 +23,14 @@ Engine::~Engine()
 {
 
 }
+
+void Engine::contextMenuEvent(QContextMenuEvent *event)
+{
+	//this->menuFile = new QMenu(this);
+	//CreateMenuBar();
+	//this->menuFile->exec(event->globalPos());
+}
+
 
 void Engine::ExitApplication()
 {
@@ -63,6 +72,8 @@ void Engine::SaveAllScenes()
 
 void Engine::CreateMenuBar()
 {
+	this->menuFile = this->menuBar()->addMenu(tr("&File"));//(menuFile);
+
 	this->actNewScene = new QAction("New Scene", this);
 	this->actOpenScene = new QAction("Open Scene", this);
 	this->actSaveScene = new QAction("Save Scene", this);
@@ -89,7 +100,7 @@ void Engine::CreateMenuBar()
 	this->menuFile->addAction(actSaveScene);
 	this->menuFile->addAction(actSaveAllScene);
 
-	this->menuBar()->addMenu(menuFile);
+	
 
 }
 
