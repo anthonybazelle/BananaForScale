@@ -37,6 +37,7 @@ private:
 private slots:
 	void ExitApplication();
 	void CreateNewScene();
+	void Rotate(); // juste pour tester
 	void OpenScene();
 	void SaveCurrentScene();
 	void SaveAllScenes();

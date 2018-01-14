@@ -59,6 +59,7 @@ void Render::paintGL()
 	glColor3f(1, 0, 0);
 	glLoadIdentity();
 	glTranslatef(0.0, 0.0, -10.0);
+	glRotatef(1 / 16.0, 1.0, 0.0, 0.0);
 	//glutSolidSphere(1, 20, 20);
 	draw();
 	//glLoadIdentity();
@@ -110,12 +111,12 @@ void Render::draw()
 	glVertex3f(0, 0, 1.2);
 	glEnd();
 }
-void Render::MousePressEvent(QMouseEvent *event)
+void Render::mousePressEvent(QMouseEvent *event)
 {
 	this->lastPos = event->pos();
 }
 
-void Render::MouseMoveEvent(QMouseEvent *event)
+void Render::mouseMoveEvent(QMouseEvent *event)
 {
 	int dx = event->x() - lastPos.x();
 	int dy = event->y() - lastPos.y();

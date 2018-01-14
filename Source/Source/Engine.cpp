@@ -13,7 +13,8 @@ Engine::Engine(QWidget *parent)
 	ui.exitBtn->setText(qtVersion);
 	ui.selectComponent->addItem("Cube");
 	ui.selectComponent->addItem("Sphere");
-	connect(ui.exitBtn, SIGNAL(clicked()), this, SLOT(ExitApplication()));
+	connect(ui.exitBtn, SIGNAL(clicked()), this, SLOT(ExitApplication(Rotate())));
+	connect(ui.rotateBtn, SIGNAL(clicked()), this, SLOT());
 	CreateMenuBar();
 	//render = new Render();
 	//render->show();
@@ -53,6 +54,11 @@ Engine* Engine::getInstance()
 	}
 
 	return this->instance;
+}
+
+void Engine::Rotate()
+{
+	glRotatef(1 / 16.0, 1.0, 0.0, 0.0);
 }
 
 void Engine::OpenScene()
