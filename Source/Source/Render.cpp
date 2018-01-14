@@ -57,7 +57,10 @@ void Render::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glColor3f(1, 0, 0);
-	glutSolidSphere(1, 20, 20);
+	glLoadIdentity();
+	glTranslatef(0.0, 0.0, -10.0);
+	//glutSolidSphere(1, 20, 20);
+	draw();
 	//glLoadIdentity();
 	//glTranslatef(0.0, 0.0, -10.0);
 	//glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
@@ -71,6 +74,42 @@ void Render::paintGL()
 	*/
 }
 
+void Render::draw()
+{
+	qglColor(Qt::red);
+	glBegin(GL_QUADS);
+	glNormal3f(0, 0, -1);
+	glVertex3f(-1, -1, 0);
+	glVertex3f(-1, 1, 0);
+	glVertex3f(1, 1, 0);
+	glVertex3f(1, -1, 0);
+
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glNormal3f(0, -1, 0.707);
+	glVertex3f(-1, -1, 0);
+	glVertex3f(1, -1, 0);
+	glVertex3f(0, 0, 1.2);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glNormal3f(1, 0, 0.707);
+	glVertex3f(1, -1, 0);
+	glVertex3f(1, 1, 0);
+	glVertex3f(0, 0, 1.2);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glNormal3f(0, 1, 0.707);
+	glVertex3f(1, 1, 0);
+	glVertex3f(-1, 1, 0);
+	glVertex3f(0, 0, 1.2);
+	glEnd();
+	glBegin(GL_TRIANGLES);
+	glNormal3f(-1, 0, 0.707);
+	glVertex3f(-1, 1, 0);
+	glVertex3f(-1, -1, 0);
+	glVertex3f(0, 0, 1.2);
+	glEnd();
+}
 void Render::MousePressEvent(QMouseEvent *event)
 {
 	this->lastPos = event->pos();

@@ -6,6 +6,7 @@
 #include <qpushbutton.h>
 #include "ui_engine.h"
 #include "Scene.h"
+#include "Render.h"
 
 
 class Engine : public QMainWindow
@@ -28,7 +29,7 @@ private:
 	QAction* actOpenScene;
 	QAction* actSaveScene;
 	QAction* actSaveAllScene;
-
+	Render* render;
 	void CreateMenuBar();
 
 	std::vector<Scene*> listScene;

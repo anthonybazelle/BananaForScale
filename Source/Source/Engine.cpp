@@ -15,6 +15,8 @@ Engine::Engine(QWidget *parent)
 	ui.selectComponent->addItem("Sphere");
 	connect(ui.exitBtn, SIGNAL(clicked()), this, SLOT(ExitApplication()));
 	CreateMenuBar();
+	//render = new Render();
+	//render->show();
 	//ui.
 	//connect(ui.menuBar->adda)
 }

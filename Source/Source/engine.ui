@@ -46,7 +46,7 @@
      <attribute name="title">
       <string>Tab 1</string>
      </attribute>
-     <widget class="QOpenGLWidget" name="sceneRender1">
+     <widget class="Render" name="sceneRender1">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -166,7 +166,7 @@
        <x>0</x>
        <y>0</y>
        <width>151</width>
-       <height>229</height>
+       <height>237</height>
       </rect>
      </property>
      <attribute name="label">
@@ -179,7 +179,7 @@
        <x>0</x>
        <y>0</y>
        <width>151</width>
-       <height>229</height>
+       <height>237</height>
       </rect>
      </property>
      <attribute name="label">
@@ -210,7 +210,7 @@
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -245,6 +245,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>Render</class>
+   <extends>QOpenGLWidget</extends>
+   <header>Render.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="engine.qrc"/>
  </resources>

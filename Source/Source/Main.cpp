@@ -1,6 +1,7 @@
 #include "engine.h"
 #include <QtWidgets/QApplication>
 #include <GL/glut.h>
+#include <Render.h>
 
 void UpdateTest()
 {
@@ -22,6 +23,10 @@ int main(int argc, char *argv[])
 	
 
 	QApplication a(argc, argv);
+
+//	Render render;
+//	render.show();
+
 	Engine engine;
 	engine.show();
 	/*

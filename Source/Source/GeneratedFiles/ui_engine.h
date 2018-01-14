@@ -27,6 +27,7 @@
 #include <QtWidgets/QToolBox>
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QWidget>
+#include "Render.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -41,7 +42,7 @@ public:
     QPushButton *exitBtn;
     QTabWidget *sceneTab;
     QWidget *tab;
-    QOpenGLWidget *sceneRender1;
+    Render *sceneRender1;
     QWidget *tab_2;
     QOpenGLWidget *sceneRender2;
     QPushButton *rotateBtn;
@@ -82,7 +83,7 @@ public:
         sceneTab->setGeometry(QRect(160, 0, 851, 661));
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
-        sceneRender1 = new QOpenGLWidget(tab);
+        sceneRender1 = new Render(tab);
         sceneRender1->setObjectName(QStringLiteral("sceneRender1"));
         sceneRender1->setGeometry(QRect(0, 0, 991, 641));
         sceneTab->addTab(tab, QString());
@@ -115,11 +116,11 @@ public:
         toolBox->setGeometry(QRect(0, 360, 151, 291));
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
-        page->setGeometry(QRect(0, 0, 151, 229));
+        page->setGeometry(QRect(0, 0, 151, 237));
         toolBox->addItem(page, QStringLiteral("Page 1"));
         page_2 = new QWidget();
         page_2->setObjectName(QStringLiteral("page_2"));
-        page_2->setGeometry(QRect(0, 0, 151, 229));
+        page_2->setGeometry(QRect(0, 0, 151, 237));
         selectComponent = new QComboBox(page_2);
         selectComponent->setObjectName(QStringLiteral("selectComponent"));
         selectComponent->setGeometry(QRect(0, 0, 151, 22));
@@ -128,7 +129,7 @@ public:
         EngineClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(EngineClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1123, 26));
+        menuBar->setGeometry(QRect(0, 0, 1123, 21));
         EngineClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(EngineClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
