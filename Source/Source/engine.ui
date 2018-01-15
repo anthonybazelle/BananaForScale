@@ -36,26 +36,16 @@
       <x>160</x>
       <y>0</y>
       <width>851</width>
-      <height>661</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="Scene1">
      <attribute name="title">
       <string>Tab 1</string>
      </attribute>
-     <widget class="Render" name="sceneRender1">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>991</width>
-        <height>641</height>
-       </rect>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -202,6 +192,16 @@
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="Render" name="renderer">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>20</y>
+      <width>851</width>
+      <height>631</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

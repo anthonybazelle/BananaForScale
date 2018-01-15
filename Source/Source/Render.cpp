@@ -1,13 +1,29 @@
 #include "Render.h"
 
+
+Render* Render::instance = 0;
+
 Render::Render(QWidget* parent) : QGLWidget(parent)
 {
+	this->sceneRendered = new Scene();
+	this->instance = this;
 }
 
 Render::~Render(void)
 {
 
 }
+
+Render* Render::getInstance()
+{
+	if (instance == NULL)
+	{
+		instance = new Render();
+	}
+
+	return instance;
+}
+
 
 QSize Render::MinimumSizeHint() const
 {
@@ -19,6 +35,15 @@ QSize Render::SizeHint() const
 	return QSize(400, 400);
 }
 
+Scene* Render::GetCurrentSceneRendered()
+{
+	return this->sceneRendered;
+}
+
+void Render::SetCurrentSceneRendered(Scene* s)
+{
+	this->sceneRendered = s;
+}
 
 void Render::initializeGL()
 {
@@ -56,26 +81,47 @@ void Render::resizeGL(int width, int height)
 void Render::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glColor3f(1, 0, 0);
+
+	if (this->sceneRendered->GetName() != "")
+	{
+		if (this->sceneRendered->GetName().compare("Tab 1") == 0)
+		{
+			QColor c(Qt::red);
+			qglClearColor(c);
+			//draw1();
+		}
+		else if (this->sceneRendered->GetName().compare("Tab 2") == 0)
+		{
+			QColor c(Qt::blue);
+			qglClearColor(c);
+			//draw2();
+		}
+	}
+	else
+	{
+		QColor c(Qt::green);
+		qglClearColor(c);
+	}
+
 	glLoadIdentity();
 	glTranslatef(0.0, 0.0, -10.0);
 	glRotatef(1 / 16.0, 1.0, 0.0, 0.0);
 	//glutSolidSphere(1, 20, 20);
-	draw();
+	//draw();
 	//glLoadIdentity();
 	//glTranslatef(0.0, 0.0, -10.0);
 	//glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
 	//glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
 	//glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
-	
-	
+
+
 	/* Draw OpenGL de n'importe quel forme (cube, tetrahedre, etc)
 	...
 	...
 	*/
 }
 
-void Render::draw()
+void Render::draw1()
 {
 	qglColor(Qt::red);
 	glBegin(GL_QUADS);
@@ -111,6 +157,19 @@ void Render::draw()
 	glVertex3f(0, 0, 1.2);
 	glEnd();
 }
+
+void Render::draw2()
+{
+	qglColor(Qt::red);
+	glBegin(GL_QUADS);
+	glNormal3f(0, 0, -1);
+	glVertex3f(-1, -1, 0);
+	glVertex3f(-1, 1, 0);
+	glVertex3f(1, 1, 0);
+	glVertex3f(1, -1, 0);
+	glEnd();
+}
+
 void Render::mousePressEvent(QMouseEvent *event)
 {
 	this->lastPos = event->pos();

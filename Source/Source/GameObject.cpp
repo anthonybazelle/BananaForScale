@@ -1,7 +1,8 @@
 #include "GameObject.h"
 
 
-GameObject::GameObject(Render* render, QObject* parent) : QObject(parent)
+/*
+GameObject::GameObject(QObject* parent) : QObject(parent)
 {
 	this->name = "";
 	this->listComponent = std::vector<Component*>();
@@ -10,13 +11,9 @@ GameObject::GameObject(Render* render, QObject* parent) : QObject(parent)
 	this->zRot = 0;
 
 	this->selected = false;
-	this->pRender = render;
-	// Couleur par defaut
-	qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
-	qtPurple = QColor::fromCmykF(0.39, 0.39, 0.0, 0.0);
-}
+}*/
 
-GameObject::GameObject(Render* render, std::string name = "New GameObject", QObject* parent) : QObject(parent)
+GameObject::GameObject(std::string name = "New GameObject", QObject* parent) : QObject(parent)
 {
 	this->name = name;
 	this->listComponent = std::vector<Component*>();
@@ -25,11 +22,6 @@ GameObject::GameObject(Render* render, std::string name = "New GameObject", QObj
 	this->zRot = 0;
 
 	this->selected = false;
-	this->pRender = render;
-
-	// Couleur par defaut
-	qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
-	qtPurple = QColor::fromCmykF(0.39, 0.39, 0.0, 0.0);
 }
 
 GameObject::~GameObject(void)
@@ -57,7 +49,7 @@ void GameObject::SetXRotation(int angle)
 	{
 		this->xRot = angle;
 		emit xRotationChanged(angle); // emit permet d'envoyer un signal à la fenetre Qt
-		this->pRender->updateGL(); // fonction Qt permettant d'appeler glDraw()
+		//this->pRender->updateGL(); // fonction Qt permettant d'appeler glDraw()
 	}
 }
 
@@ -68,7 +60,7 @@ void GameObject::SetYRotation(int angle)
 	{
 		this->yRot = angle;
 		emit yRotationChanged(angle); // emit permet d'envoyer un signal à la fenetre Qt
-		this->pRender->updateGL(); // fonction Qt permettant d'appeler glDraw()
+		//this->pRender->updateGL(); // fonction Qt permettant d'appeler glDraw()
 	}
 }
 
@@ -79,7 +71,7 @@ void GameObject::SetZRotation(int angle)
 	{
 		this->zRot = angle;
 		emit zRotationChanged(angle); // emit permet d'envoyer un signal à la fenetre Qt
-		this->pRender->updateGL(); // fonction Qt permettant d'appeler glDraw()
+		//this->pRender->updateGL(); // fonction Qt permettant d'appeler glDraw()
 	}
 }
 

@@ -13,13 +13,17 @@ Engine::Engine(QWidget *parent)
 	ui.exitBtn->setText(qtVersion);
 	ui.selectComponent->addItem("Cube");
 	ui.selectComponent->addItem("Sphere");
-	connect(ui.exitBtn, SIGNAL(clicked()), this, SLOT(ExitApplication(Rotate())));
-	connect(ui.rotateBtn, SIGNAL(clicked()), this, SLOT());
+	connect(ui.exitBtn, SIGNAL(clicked()), this, SLOT(ExitApplication()));
+	connect(ui.rotateBtn, SIGNAL(clicked()), this, SLOT(Rotate()));
+	connect(ui.sceneTab, SIGNAL(currentChanged(int)), this, SLOT(SceneSwitch()));
 	CreateMenuBar();
-	//render = new Render();
-	//render->show();
-	//ui.
-	//connect(ui.menuBar->adda)
+	// Pour les tests et présentation p-e, on load une scene à l'ouverture
+	Scene* scene1 = new Scene("..\Tab 1.yo");
+	Scene* scene2 = new Scene("..\Tab 2.yo");
+	this->listScene.push_back(scene1);
+	this->listScene.push_back(scene2);
+
+	Render::getInstance()->SetCurrentSceneRendered(scene1);
 }
 
 Engine::~Engine()
@@ -48,12 +52,12 @@ void Engine::CreateNewScene()
 
 Engine* Engine::getInstance()
 {
-	if (this->instance == NULL)
+	if (instance == NULL)
 	{
 		instance = new Engine();
 	}
 
-	return this->instance;
+	return instance;
 }
 
 void Engine::Rotate()
@@ -66,6 +70,29 @@ void Engine::OpenScene()
 	// TODO : Traiter le XML associe a la Scene ouverte, et l'afficher dans le Render
 	// On ne le fera certainement pas car trop long et dur a traiter (cote openGL)
 	// Mettre a jour la liste du GameObject associe a la scene
+	int u = 0;
+	char filename[MAX_PATH];
+	/*
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFile;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = NULL;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	GetOpenFileName(&ofn);
+	*/
+}
+
+void Engine::SceneSwitch()
+{
+	Render::getInstance()->SetCurrentSceneRendered(GetSceneByName(ui.sceneTab->tabText(ui.sceneTab->currentIndex()).toStdString()));
+	Render::getInstance()->updateGL(); // Permet de rappeler la fonction paintGL du render
 }
 
 void Engine::SaveCurrentScene()
@@ -107,9 +134,6 @@ void Engine::CreateMenuBar()
 	this->menuFile->addAction(actOpenScene);
 	this->menuFile->addAction(actSaveScene);
 	this->menuFile->addAction(actSaveAllScene);
-
-	
-
 }
 
 std::vector<Scene*> Engine::GetListScene()
@@ -135,8 +159,7 @@ Scene* Engine::GetSceneByName(std::string& name)
 Scene* Engine::GetActiveScene()
 {
 	// Recuperer le nom de la tab visible (le nom de la scene donc)
-	QString nameCurrentTab = ui.sceneTab->tabText(ui.sceneTab->currentIndex());
-	return GetSceneByName(nameCurrentTab.toStdString());
+	return GetSceneByName(ui.sceneTab->tabText(ui.sceneTab->currentIndex()).toStdString());
 }
 
 Ui::EngineClass* Engine::GetUI()

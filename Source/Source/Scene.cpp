@@ -4,7 +4,15 @@
 Scene::Scene(void)
 {
 	this->listGameObject = std::vector<GameObject*>();
+	this->m_name = "";
 }
+
+Scene::Scene(std::string pathFile)
+{
+	this->m_pathFile = pathFile;
+	LoadDataFromFile();
+}
+
 
 Scene::~Scene(void)
 {
@@ -13,7 +21,7 @@ Scene::~Scene(void)
 
 std::string Scene::GetName()
 {
-	return this->name;
+	return this->m_name;
 }
 
 std::vector<GameObject*> Scene::GetListGameObject()
@@ -39,4 +47,18 @@ GameObject* Scene::GetGameObjectByName(std::string name)
 	}
 
 	return NULL;
+}
+
+void Scene::LoadDataFromFile()
+{
+	// TODO : Charger tous les GameObject provenant du fichier, ainsi que le nom de la scene
+	// juste pour les tests :
+	if (m_pathFile.find("1") != std::string::npos)
+	{
+		this->m_name = "Tab 1";
+	}
+	else if (m_pathFile.find("2") != std::string::npos)
+	{
+		this->m_name = "Tab 2";
+	}
 }

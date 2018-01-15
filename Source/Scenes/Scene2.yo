@@ -1,0 +1,11 @@
+<Scene>
+	<Name>Scene2</Name>
+	<GameObjectList>
+		<GameObject>
+			<ComponentList>
+				<Component>
+				</Component>
+			</ComponentList>
+		</GameObject>
+	</GameObjectList>
+</Scene>

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Engine_t {
-    QByteArrayData data[17];
-    char stringdata0[198];
+    QByteArrayData data[18];
+    char stringdata0[210];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,20 +37,21 @@ QT_MOC_LITERAL(4, 39, 6), // "Rotate"
 QT_MOC_LITERAL(5, 46, 9), // "OpenScene"
 QT_MOC_LITERAL(6, 56, 16), // "SaveCurrentScene"
 QT_MOC_LITERAL(7, 73, 13), // "SaveAllScenes"
-QT_MOC_LITERAL(8, 87, 12), // "GetListScene"
-QT_MOC_LITERAL(9, 100, 19), // "std::vector<Scene*>"
-QT_MOC_LITERAL(10, 120, 14), // "GetSceneByName"
-QT_MOC_LITERAL(11, 135, 6), // "Scene*"
-QT_MOC_LITERAL(12, 142, 12), // "std::string&"
-QT_MOC_LITERAL(13, 155, 4), // "name"
-QT_MOC_LITERAL(14, 160, 14), // "GetActiveScene"
-QT_MOC_LITERAL(15, 175, 5), // "GetUI"
-QT_MOC_LITERAL(16, 181, 16) // "Ui::EngineClass*"
+QT_MOC_LITERAL(8, 87, 11), // "SceneSwitch"
+QT_MOC_LITERAL(9, 99, 12), // "GetListScene"
+QT_MOC_LITERAL(10, 112, 19), // "std::vector<Scene*>"
+QT_MOC_LITERAL(11, 132, 14), // "GetSceneByName"
+QT_MOC_LITERAL(12, 147, 6), // "Scene*"
+QT_MOC_LITERAL(13, 154, 12), // "std::string&"
+QT_MOC_LITERAL(14, 167, 4), // "name"
+QT_MOC_LITERAL(15, 172, 14), // "GetActiveScene"
+QT_MOC_LITERAL(16, 187, 5), // "GetUI"
+QT_MOC_LITERAL(17, 193, 16) // "Ui::EngineClass*"
 
     },
     "Engine\0ExitApplication\0\0CreateNewScene\0"
     "Rotate\0OpenScene\0SaveCurrentScene\0"
-    "SaveAllScenes\0GetListScene\0"
+    "SaveAllScenes\0SceneSwitch\0GetListScene\0"
     "std::vector<Scene*>\0GetSceneByName\0"
     "Scene*\0std::string&\0name\0GetActiveScene\0"
     "GetUI\0Ui::EngineClass*"
@@ -63,7 +64,7 @@ static const uint qt_meta_data_Engine[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,16 +72,17 @@ static const uint qt_meta_data_Engine[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   64,    2, 0x08 /* Private */,
-       3,    0,   65,    2, 0x08 /* Private */,
-       4,    0,   66,    2, 0x08 /* Private */,
-       5,    0,   67,    2, 0x08 /* Private */,
-       6,    0,   68,    2, 0x08 /* Private */,
-       7,    0,   69,    2, 0x08 /* Private */,
-       8,    0,   70,    2, 0x08 /* Private */,
-      10,    1,   71,    2, 0x08 /* Private */,
-      14,    0,   74,    2, 0x08 /* Private */,
-      15,    0,   75,    2, 0x08 /* Private */,
+       1,    0,   69,    2, 0x08 /* Private */,
+       3,    0,   70,    2, 0x08 /* Private */,
+       4,    0,   71,    2, 0x08 /* Private */,
+       5,    0,   72,    2, 0x08 /* Private */,
+       6,    0,   73,    2, 0x08 /* Private */,
+       7,    0,   74,    2, 0x08 /* Private */,
+       8,    0,   75,    2, 0x08 /* Private */,
+       9,    0,   76,    2, 0x08 /* Private */,
+      11,    1,   77,    2, 0x08 /* Private */,
+      15,    0,   80,    2, 0x08 /* Private */,
+      16,    0,   81,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -89,10 +91,11 @@ static const uint qt_meta_data_Engine[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    0x80000000 | 9,
-    0x80000000 | 11, 0x80000000 | 12,   13,
-    0x80000000 | 11,
-    0x80000000 | 16,
+    QMetaType::Void,
+    0x80000000 | 10,
+    0x80000000 | 12, 0x80000000 | 13,   14,
+    0x80000000 | 12,
+    0x80000000 | 17,
 
        0        // eod
 };
@@ -109,13 +112,14 @@ void Engine::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 3: _t->OpenScene(); break;
         case 4: _t->SaveCurrentScene(); break;
         case 5: _t->SaveAllScenes(); break;
-        case 6: { std::vector<Scene*> _r = _t->GetListScene();
+        case 6: _t->SceneSwitch(); break;
+        case 7: { std::vector<Scene*> _r = _t->GetListScene();
             if (_a[0]) *reinterpret_cast< std::vector<Scene*>*>(_a[0]) = _r; }  break;
-        case 7: { Scene* _r = _t->GetSceneByName((*reinterpret_cast< std::string(*)>(_a[1])));
+        case 8: { Scene* _r = _t->GetSceneByName((*reinterpret_cast< std::string(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< Scene**>(_a[0]) = _r; }  break;
-        case 8: { Scene* _r = _t->GetActiveScene();
+        case 9: { Scene* _r = _t->GetActiveScene();
             if (_a[0]) *reinterpret_cast< Scene**>(_a[0]) = _r; }  break;
-        case 9: { Ui::EngineClass* _r = _t->GetUI();
+        case 10: { Ui::EngineClass* _r = _t->GetUI();
             if (_a[0]) *reinterpret_cast< Ui::EngineClass**>(_a[0]) = _r; }  break;
         default: ;
         }
@@ -147,13 +151,13 @@ int Engine::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }

@@ -41,8 +41,7 @@ public:
     QWidget *centralWidget;
     QPushButton *exitBtn;
     QTabWidget *sceneTab;
-    QWidget *tab;
-    Render *sceneRender1;
+    QWidget *Scene1;
     QWidget *tab_2;
     QOpenGLWidget *sceneRender2;
     QPushButton *rotateBtn;
@@ -55,6 +54,7 @@ public:
     QWidget *page;
     QWidget *page_2;
     QComboBox *selectComponent;
+    Render *renderer;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -80,13 +80,10 @@ public:
         exitBtn->setGeometry(QRect(1020, 630, 75, 23));
         sceneTab = new QTabWidget(centralWidget);
         sceneTab->setObjectName(QStringLiteral("sceneTab"));
-        sceneTab->setGeometry(QRect(160, 0, 851, 661));
-        tab = new QWidget();
-        tab->setObjectName(QStringLiteral("tab"));
-        sceneRender1 = new Render(tab);
-        sceneRender1->setObjectName(QStringLiteral("sceneRender1"));
-        sceneRender1->setGeometry(QRect(0, 0, 991, 641));
-        sceneTab->addTab(tab, QString());
+        sceneTab->setGeometry(QRect(160, 0, 851, 21));
+        Scene1 = new QWidget();
+        Scene1->setObjectName(QStringLiteral("Scene1"));
+        sceneTab->addTab(Scene1, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
         sceneRender2 = new QOpenGLWidget(tab_2);
@@ -126,6 +123,9 @@ public:
         selectComponent->setGeometry(QRect(0, 0, 151, 22));
         selectComponent->setEditable(false);
         toolBox->addItem(page_2, QStringLiteral("Page 2"));
+        renderer = new Render(centralWidget);
+        renderer->setObjectName(QStringLiteral("renderer"));
+        renderer->setGeometry(QRect(160, 20, 851, 631));
         EngineClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(EngineClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -155,7 +155,7 @@ public:
         actionSave_current_Scene->setText(QApplication::translate("EngineClass", "Save current Scene", Q_NULLPTR));
         actionSave_all_Scenes->setText(QApplication::translate("EngineClass", "Save all Scenes", Q_NULLPTR));
         exitBtn->setText(QApplication::translate("EngineClass", "Exit", Q_NULLPTR));
-        sceneTab->setTabText(sceneTab->indexOf(tab), QApplication::translate("EngineClass", "Tab 1", Q_NULLPTR));
+        sceneTab->setTabText(sceneTab->indexOf(Scene1), QApplication::translate("EngineClass", "Tab 1", Q_NULLPTR));
         sceneTab->setTabText(sceneTab->indexOf(tab_2), QApplication::translate("EngineClass", "Tab 2", Q_NULLPTR));
         rotateBtn->setText(QApplication::translate("EngineClass", "Rotate", Q_NULLPTR));
         scaleBtn->setText(QApplication::translate("EngineClass", "Scale", Q_NULLPTR));

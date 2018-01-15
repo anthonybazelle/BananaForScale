@@ -1,0 +1,8 @@
+- Load XML File (scene)
+- Open explorer File
+- Interface Add GameObject
+- Add GameObject in XML File (Scene selected)
+- Preset several Component
+- Create new File XML when press "Create new Scene"
+- Add component to GameObject
+- Use Smart Pointer 

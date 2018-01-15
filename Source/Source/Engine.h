@@ -5,7 +5,14 @@
 #include <QtCore>
 #include <qpushbutton.h>
 #include "ui_engine.h"
+
+
+#ifndef SCENE_H
+#define SCENE_H
 #include "Scene.h"
+#endif 
+
+
 #include "Render.h"
 
 
@@ -15,7 +22,7 @@ class Engine : public QMainWindow
 
 public:
 	explicit Engine(QWidget *parent = 0);
-	Engine* getInstance();
+	static Engine* getInstance();
 	~Engine();
 
 protected:
@@ -29,10 +36,9 @@ private:
 	QAction* actOpenScene;
 	QAction* actSaveScene;
 	QAction* actSaveAllScene;
-	Render* render;
-	void CreateMenuBar();
-
 	std::vector<Scene*> listScene;
+
+	void CreateMenuBar();
 	// C'est très particulier comme syntax C++ mais c'est propre à Qt
 private slots:
 	void ExitApplication();
@@ -41,6 +47,7 @@ private slots:
 	void OpenScene();
 	void SaveCurrentScene();
 	void SaveAllScenes();
+	void SceneSwitch();
 	std::vector<Scene*> GetListScene();
 	Scene* GetSceneByName(std::string& name);
 	Scene* GetActiveScene();
