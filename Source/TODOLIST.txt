@@ -1,8 +1,8 @@
-- Load XML File (scene)
-- Open explorer File
-- Interface Add GameObject
-- Add GameObject in XML File (Scene selected)
-- Preset several Component
-- Create new File XML when press "Create new Scene"
-- Add component to GameObject
+- Load XML File (scene) (A terminer, ajouter une nouvelle tab dans la sceneTab et y charger les data load) ~30min
+- Open explorer File FAIT
+- Interface Add GameObject ~15min
+- Save Scene ~1 à 2 h (car voir comment fonction boost pour ca)
+- Preset several Component ~30min
+- Create new File XML when press "Create new Scene" ~15min
+- Interface Add Component to GameObject ~15min
 - Use Smart Pointer 

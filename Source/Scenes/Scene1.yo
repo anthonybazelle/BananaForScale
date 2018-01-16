@@ -1,9 +1,14 @@
 <Scene>
-	<Name>Scene1</Name>
+	<name>Scene1</name>
 	<GameObjectList>
 		<GameObject>
+			<name>New GameObject</name>
+			<pivotX>0.5</pivotX>
+			<pivotY>0.2</pivotY>
+			<pivotZ>0.5</pivotZ>
 			<ComponentList>
 				<Component>
+					<type>Cube</type>
 				</Component>
 			</ComponentList>
 		</GameObject>

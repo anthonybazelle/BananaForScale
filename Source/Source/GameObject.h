@@ -11,12 +11,23 @@ class GameObject : public QObject
 	Q_OBJECT // ATTENTION !!! Si ceci n'existe pas, ca provoque une vieille erreur de linkage par Qt qui ne comprends plus ce qu'est un signal
 
 public:
+	struct Point
+	{
+	public:
+		float x;
+		float y;
+		float z;
+	};
+
 	//GameObject(QObject* parent = 0);
 	GameObject(std::string name, QObject* parent = 0);
 	~GameObject(void);
 
+	void AddComponent(Component* component);
 	std::string GetName();
 	std::vector<Component*> GetListComponent();
+	Point GetPivot();
+	void SetPivot(Point p);
 
 public slots:
 	void SetXRotation(int angle);
@@ -37,7 +48,7 @@ private:
 	int xRot;
 	int yRot;
 	int zRot;
-
+	Point pivot;
 	bool selected;
 };
 

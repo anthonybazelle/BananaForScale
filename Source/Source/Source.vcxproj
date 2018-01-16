@@ -63,8 +63,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..\libs\freeglut\include;..\libs\glew-2.0.0\include;..\libs\GL;$(IncludePath)</IncludePath>
-    <LibraryPath>..\libs\freeglut\lib\x64;..\libs\glew-2.0.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\libs\boost;..\libs\freeglut\include;..\libs\glew-2.0.0\include;..\libs\GL;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libs\boost\libs;..\libs\freeglut\lib\x64;..\libs\glew-2.0.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>

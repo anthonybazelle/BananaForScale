@@ -1,6 +1,22 @@
 #include "GameObject.h"
 
 
+
+GameObject::GameObject(std::string name = "New GameObject", QObject* parent) : QObject(parent)
+{
+	this->name = name;
+	this->listComponent = std::vector<Component*>();
+	this->xRot = 0;
+	this->yRot = 0;
+	this->zRot = 0;
+
+	this->pivot.x = 0.f;
+	this->pivot.y = 0.f;
+	this->pivot.z = 0.f;
+
+	this->selected = false;
+}
+
 /*
 GameObject::GameObject(QObject* parent) : QObject(parent)
 {
@@ -11,18 +27,8 @@ GameObject::GameObject(QObject* parent) : QObject(parent)
 	this->zRot = 0;
 
 	this->selected = false;
-}*/
-
-GameObject::GameObject(std::string name = "New GameObject", QObject* parent) : QObject(parent)
-{
-	this->name = name;
-	this->listComponent = std::vector<Component*>();
-	this->xRot = 0;
-	this->yRot = 0;
-	this->zRot = 0;
-
-	this->selected = false;
 }
+*/
 
 GameObject::~GameObject(void)
 {
@@ -42,6 +48,11 @@ std::vector<Component*> GameObject::GetListComponent()
 	return this->listComponent;
 }
 
+void GameObject::AddComponent(Component* component)
+{
+	this->listComponent.push_back(component);
+}
+
 void GameObject::SetXRotation(int angle)
 {
 	NormalizeAngle(angle);
@@ -51,6 +62,16 @@ void GameObject::SetXRotation(int angle)
 		emit xRotationChanged(angle); // emit permet d'envoyer un signal à la fenetre Qt
 		//this->pRender->updateGL(); // fonction Qt permettant d'appeler glDraw()
 	}
+}
+
+GameObject::Point GameObject::GetPivot()
+{
+	return this->pivot;
+}
+
+void GameObject::SetPivot(GameObject::Point p)
+{
+	this->pivot = p;
 }
 
 void GameObject::SetYRotation(int angle)

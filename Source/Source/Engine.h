@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QtCore>
+#include <QFileDialog>
 #include <qpushbutton.h>
 #include "ui_engine.h"
 

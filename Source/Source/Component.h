@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stddef.h>
-
+#include <string>
 #include "Material.h"
 
 
@@ -12,8 +12,11 @@ public:
 	~Component(void);
 
 	Material* GetMaterial();
+	std::string GetType();
+	void SetType(std::string t);
 
 private:
 	Material* material;	
+	std::string type;
 };
 

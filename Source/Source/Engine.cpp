@@ -70,23 +70,17 @@ void Engine::OpenScene()
 	// TODO : Traiter le XML associe a la Scene ouverte, et l'afficher dans le Render
 	// On ne le fera certainement pas car trop long et dur a traiter (cote openGL)
 	// Mettre a jour la liste du GameObject associe a la scene
-	int u = 0;
-	char filename[MAX_PATH];
-	/*
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;
-	ofn.lpstrFile = szFile;
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = sizeof(szFile);
-	ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL;
-	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = NULL;
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-	GetOpenFileName(&ofn);
-	*/
+	QString fileName = QFileDialog::getOpenFileName(
+		this,
+		tr("Open file"),
+		"C://",
+		"YO Files (*.yo)");
+	Scene* openScene = new Scene(fileName.toStdString());
+
+	this->listScene.push_back(openScene);
+	QWidget* newTab = new QWidget();
+	ui.sceneTab->addTab(newTab, QString(openScene->GetName().c_str()));
+
 }
 
 void Engine::SceneSwitch()
