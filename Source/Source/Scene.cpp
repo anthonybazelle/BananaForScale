@@ -29,7 +29,7 @@ std::vector<GameObject*> Scene::GetListGameObject()
 	return this->listGameObject;
 }
 
-GameObject* Scene::GetGameObjectByName(std::string name)
+GameObject* Scene::GetGameObjectByName(std::string& name)
 {
 	try
 	{
@@ -49,9 +49,36 @@ GameObject* Scene::GetGameObjectByName(std::string name)
 	return NULL;
 }
 
+void Scene::SetName(std::string name)
+{
+	this->m_name = name;
+}
+
+std::string Scene::CheckName(std::string name)
+{
+	bool isChecked = false;
+	int countSame = 1;
+
+	while (!isChecked)
+	{
+		for (auto it = this->listGameObject.begin(); it != this->listGameObject.end(); ++it)
+		{
+			if ((*it)->GetName().compare(name) == 0)
+			{
+				break;
+			}
+		}
+		name = name + " (" + std::to_string(countSame) + ")";
+		++countSame;
+	}
+
+	return name;
+}
+
 void Scene::LoadDataFromFile()
 {
 	// TODO : Charger tous les GameObject provenant du fichier, ainsi que le nom de la scene
+	// TODO : Changer les else if pas beaux en switch, plus perf
 	// juste pour les tests :
 	if (m_pathFile.find("1") != std::string::npos)
 	{

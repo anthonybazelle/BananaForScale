@@ -29,6 +29,8 @@ public:
 	Point GetPivot();
 	void SetPivot(Point p);
 
+	std::string CheckTypeComponent(std::string name);
+
 public slots:
 	void SetXRotation(int angle);
 	void SetYRotation(int angle);

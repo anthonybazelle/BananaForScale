@@ -17,6 +17,8 @@ GameObject::GameObject(std::string name = "New GameObject", QObject* parent) : Q
 	this->selected = false;
 }
 
+
+
 /*
 GameObject::GameObject(QObject* parent) : QObject(parent)
 {
@@ -41,6 +43,27 @@ GameObject::~GameObject(void)
 std::string GameObject::GetName()
 {
 	return this->name;
+}
+
+std::string GameObject::CheckTypeComponent(std::string type)
+{
+	bool isChecked = false;
+	int countSame = 1;
+
+	while (!isChecked)
+	{
+		for (auto it = this->listComponent.begin(); it != this->listComponent.end(); ++it)
+		{
+			if ((*it)->GetType().compare(type) == 0)
+			{
+				break;
+			}
+		}
+		type = type + " (" + std::to_string(countSame) + ")";
+		++countSame;
+	}
+
+	return type;
 }
 
 std::vector<Component*> GameObject::GetListComponent()

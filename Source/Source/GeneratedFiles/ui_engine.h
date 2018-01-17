@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLayout>
@@ -47,14 +46,15 @@ public:
     QPushButton *rotateBtn;
     QPushButton *scaleBtn;
     QPushButton *translateBtn;
-    QTreeView *treeView;
-    QLabel *gameObjectList;
+    QTreeView *GOTreeView;
+    QLabel *labelGOList;
     QLabel *label;
-    QToolBox *toolBox;
+    QToolBox *componentToolBox;
     QWidget *page;
     QWidget *page_2;
-    QComboBox *selectComponent;
     Render *renderer;
+    QLabel *title;
+    QLabel *imageTitle;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -99,33 +99,42 @@ public:
         translateBtn = new QPushButton(centralWidget);
         translateBtn->setObjectName(QStringLiteral("translateBtn"));
         translateBtn->setGeometry(QRect(1020, 20, 91, 23));
-        treeView = new QTreeView(centralWidget);
-        treeView->setObjectName(QStringLiteral("treeView"));
-        treeView->setGeometry(QRect(0, 20, 161, 301));
-        gameObjectList = new QLabel(centralWidget);
-        gameObjectList->setObjectName(QStringLiteral("gameObjectList"));
-        gameObjectList->setGeometry(QRect(10, 0, 111, 16));
+        GOTreeView = new QTreeView(centralWidget);
+        GOTreeView->setObjectName(QStringLiteral("GOTreeView"));
+        GOTreeView->setGeometry(QRect(0, 20, 161, 301));
+        labelGOList = new QLabel(centralWidget);
+        labelGOList->setObjectName(QStringLiteral("labelGOList"));
+        labelGOList->setGeometry(QRect(10, 0, 111, 16));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(10, 340, 111, 16));
-        toolBox = new QToolBox(centralWidget);
-        toolBox->setObjectName(QStringLiteral("toolBox"));
-        toolBox->setGeometry(QRect(0, 360, 151, 291));
+        componentToolBox = new QToolBox(centralWidget);
+        componentToolBox->setObjectName(QStringLiteral("componentToolBox"));
+        componentToolBox->setEnabled(true);
+        componentToolBox->setGeometry(QRect(0, 360, 151, 291));
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
         page->setGeometry(QRect(0, 0, 151, 237));
-        toolBox->addItem(page, QStringLiteral("Page 1"));
+        componentToolBox->addItem(page, QStringLiteral("Page 1"));
         page_2 = new QWidget();
         page_2->setObjectName(QStringLiteral("page_2"));
         page_2->setGeometry(QRect(0, 0, 151, 237));
-        selectComponent = new QComboBox(page_2);
-        selectComponent->setObjectName(QStringLiteral("selectComponent"));
-        selectComponent->setGeometry(QRect(0, 0, 151, 22));
-        selectComponent->setEditable(false);
-        toolBox->addItem(page_2, QStringLiteral("Page 2"));
+        componentToolBox->addItem(page_2, QStringLiteral("Page 2"));
         renderer = new Render(centralWidget);
         renderer->setObjectName(QStringLiteral("renderer"));
         renderer->setGeometry(QRect(160, 20, 851, 631));
+        title = new QLabel(centralWidget);
+        title->setObjectName(QStringLiteral("title"));
+        title->setGeometry(QRect(330, 70, 531, 101));
+        QFont font;
+        font.setFamily(QStringLiteral("Segoe Print"));
+        font.setPointSize(28);
+        title->setFont(font);
+        title->setMouseTracking(false);
+        title->setAutoFillBackground(false);
+        imageTitle = new QLabel(centralWidget);
+        imageTitle->setObjectName(QStringLiteral("imageTitle"));
+        imageTitle->setGeometry(QRect(450, 260, 271, 371));
         EngineClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(EngineClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -141,7 +150,7 @@ public:
         retranslateUi(EngineClass);
 
         sceneTab->setCurrentIndex(0);
-        toolBox->setCurrentIndex(1);
+        componentToolBox->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(EngineClass);
@@ -160,11 +169,12 @@ public:
         rotateBtn->setText(QApplication::translate("EngineClass", "Rotate", Q_NULLPTR));
         scaleBtn->setText(QApplication::translate("EngineClass", "Scale", Q_NULLPTR));
         translateBtn->setText(QApplication::translate("EngineClass", "Translate", Q_NULLPTR));
-        gameObjectList->setText(QApplication::translate("EngineClass", "GameObject List :", Q_NULLPTR));
+        labelGOList->setText(QApplication::translate("EngineClass", "GameObject List :", Q_NULLPTR));
         label->setText(QApplication::translate("EngineClass", "Selected GameObject :", Q_NULLPTR));
-        toolBox->setItemText(toolBox->indexOf(page), QApplication::translate("EngineClass", "Page 1", Q_NULLPTR));
-        selectComponent->setCurrentText(QString());
-        toolBox->setItemText(toolBox->indexOf(page_2), QApplication::translate("EngineClass", "Page 2", Q_NULLPTR));
+        componentToolBox->setItemText(componentToolBox->indexOf(page), QApplication::translate("EngineClass", "Page 1", Q_NULLPTR));
+        componentToolBox->setItemText(componentToolBox->indexOf(page_2), QApplication::translate("EngineClass", "Page 2", Q_NULLPTR));
+        title->setText(QApplication::translate("EngineClass", "Welcome in BananaForScale", Q_NULLPTR));
+        imageTitle->setText(QApplication::translate("EngineClass", "<html><head/><body><p><br/></p></body></html>", Q_NULLPTR));
     } // retranslateUi
 
 };

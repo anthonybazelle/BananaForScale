@@ -1,5 +1,4 @@
 - Load XML File (scene) (A terminer, ajouter une nouvelle tab dans la sceneTab et y charger les data load) ~30min
-- Open explorer File FAIT
 - Interface Add GameObject ~15min
 - Save Scene ~1 à 2 h (car voir comment fonction boost pour ca)
 - Preset several Component ~30min

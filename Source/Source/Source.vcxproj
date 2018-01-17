@@ -172,6 +172,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SmartPtr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="engine.h">
@@ -215,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
+    <ClInclude Include="SmartPtr.h" />
     <CustomBuild Include="GameObject.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing GameObject.h...</Message>

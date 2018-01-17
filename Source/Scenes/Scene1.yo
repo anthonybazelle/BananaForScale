@@ -12,5 +12,16 @@
 				</Component>
 			</ComponentList>
 		</GameObject>
+		<GameObject>
+			<name>New GameObject(1)</name>
+			<pivotX>0.5</pivotX>
+			<pivotY>0.2</pivotY>
+			<pivotZ>0.5</pivotZ>
+			<ComponentList>
+				<Component>
+					<type>Sphere</type>
+				</Component>
+			</ComponentList>
+		</GameObject>
 	</GameObjectList>
 </Scene>

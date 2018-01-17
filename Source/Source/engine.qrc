@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="Engine">
-    </qresource>
+  <qresource prefix="Engine"/>
+  <qresource prefix="img">
+    <file>engine.qrc</file>
+  </qresource>
 </RCC>

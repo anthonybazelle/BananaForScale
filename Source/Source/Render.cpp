@@ -6,7 +6,7 @@ Render* Render::instance = 0;
 Render::Render(QWidget* parent) : QGLWidget(parent)
 {
 	this->sceneRendered = new Scene();
-	this->instance = this;
+	this->instance = this; // Singleton, simplement car Qt lance le constructeur du Render dès le debut comme le constructeur d'Engine
 }
 
 Render::~Render(void)
@@ -84,17 +84,12 @@ void Render::paintGL()
 
 	if (this->sceneRendered->GetName() != "")
 	{
-		if (this->sceneRendered->GetName().compare("Tab 1") == 0)
+		if (this->sceneRendered->GetName().compare("Default") == 0)
 		{
 			QColor c(Qt::red);
 			qglClearColor(c);
+			this->hide();
 			//draw1();
-		}
-		else if (this->sceneRendered->GetName().compare("Tab 2") == 0)
-		{
-			QColor c(Qt::blue);
-			qglClearColor(c);
-			//draw2();
 		}
 	}
 	else

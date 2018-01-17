@@ -4,6 +4,10 @@
 #include <QtWidgets/QMainWindow>
 #include <QtCore>
 #include <QFileDialog>
+#include <QtGui>
+#include <QBitmap>
+#include <QStandardItemModel>
+#include <QMessageBox>
 #include <qpushbutton.h>
 #include "ui_engine.h"
 
@@ -37,11 +41,31 @@ private:
 	QAction* actOpenScene;
 	QAction* actSaveScene;
 	QAction* actSaveAllScene;
+	QStandardItemModel* model; // modele à insérer dans le QTreeView qui correspond à la liste des GameObject de la scène selectionnée
 	std::vector<Scene*> listScene;
+	Scene* activeScene;
+	GameObject* goSelected;
 
 	void CreateMenuBar();
+	void LoadGOListInterface(std::string& sceneName);
+	void LoadComponentListInterface(Scene* scene, std::string& goName);
+	void ClearAllInterface();
+	void ClearInterfaceGO();
+	void ClearInterfaceComponent();
+	std::vector<Scene*> GetListScene();
+	Scene* GetSceneByName(std::string& name);
+	Scene* GetActiveScene();
+	void SetActiveScene(Scene* s);
+	void HideStartingWindow();
+	void HideEditWindow();
+	std::string CheckName(std::string name);
+
 	// C'est très particulier comme syntax C++ mais c'est propre à Qt
 private slots:
+	void AddNewGameObject();
+	void AddNewComponent();
+	void ShowContextMenuGOList(const QPoint &pos);
+	void ShowContextMenuComponent(const QPoint &pos);
 	void ExitApplication();
 	void CreateNewScene();
 	void Rotate(); // juste pour tester
@@ -49,9 +73,7 @@ private slots:
 	void SaveCurrentScene();
 	void SaveAllScenes();
 	void SceneSwitch();
-	std::vector<Scene*> GetListScene();
-	Scene* GetSceneByName(std::string& name);
-	Scene* GetActiveScene();
+	void GOSelected(const QModelIndex& index);
 	Ui::EngineClass* GetUI();
 };
 

@@ -17,8 +17,9 @@ public:
 	~Scene(void);
 
 	std::string GetName();
+	void SetName(std::string name);
 	std::vector<GameObject*> GetListGameObject();
-	GameObject* GetGameObjectByName(std::string name);
+	GameObject* GetGameObjectByName(std::string& name);
 	void AddGameObject(GameObject* go);
 
 private:
@@ -27,5 +28,6 @@ private:
 	std::string m_pathFile;
 
 	void LoadDataFromFile();
+	std::string CheckName(std::string name);
 };
 
