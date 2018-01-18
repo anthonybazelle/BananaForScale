@@ -57,6 +57,7 @@ void Scene::SetName(std::string name)
 std::string Scene::CheckName(std::string name)
 {
 	bool isChecked = false;
+	bool isChecked2 = true;
 	int countSame = 1;
 
 	while (!isChecked)
@@ -65,11 +66,28 @@ std::string Scene::CheckName(std::string name)
 		{
 			if ((*it)->GetName().compare(name) == 0)
 			{
+				isChecked2 = false;
 				break;
 			}
 		}
-		name = name + " (" + std::to_string(countSame) + ")";
+
+		if (isChecked2)
+			break;
+
+		int indexOpen = 0;
+		if ((indexOpen = name.find("(")) != std::string::npos)
+		{
+			int toIncrement = atoi(name.substr(indexOpen + 1, name.find(")") - indexOpen).c_str());
+			std::string toReplace = "(" + std::to_string(toIncrement) + ")";
+			name.replace(indexOpen, toReplace.length(), "(" + std::to_string(toIncrement + 1) + ")");
+		}
+		else
+		{
+			name = name + " (" + std::to_string(countSame) + ")";
+		}
+
 		++countSame;
+		isChecked2 = true;
 	}
 
 	return name;
@@ -115,7 +133,7 @@ void Scene::LoadDataFromFile()
 						{
 							if (r.first == "name")
 							{
-								go = new GameObject(r.second.data());
+								go = new GameObject(CheckName(r.second.data()));
 							}
 							if (r.first == "pivotX")
 							{

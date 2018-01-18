@@ -3,10 +3,45 @@
 
 Render* Render::instance = 0;
 
+static const Vertex sg_vertexes[] = {
+	Vertex(QVector3D(-0.5f,  -0.5f, 1.0f), QVector3D(1.0f, 0.0f, 0.0f)),
+	Vertex(QVector3D(-0.5f, 0.5f, 1.0f), QVector3D(0.0f, 1.0f, 0.0f)),
+	Vertex(QVector3D(0.5f, 0.5f, 1.0f), QVector3D(0.0f, 0.0f, 1.0f)),
+	Vertex(QVector3D(0.5f, -0.5f, 1.0f), QVector3D(0.0f, 0.0f, 1.0f)),
+
+	Vertex(QVector3D(-0.5f,  -0.5f, 2.0f), QVector3D(1.0f, 0.0f, 0.0f)),
+	Vertex(QVector3D(-0.5f, 0.5f, 2.0f), QVector3D(0.0f, 1.0f, 0.0f)),
+	Vertex(QVector3D(0.5f, 0.5f, 2.0f), QVector3D(0.0f, 0.0f, 1.0f)),
+	Vertex(QVector3D(0.5f, -0.5f, 2.0f), QVector3D(0.0f, 0.0f, 1.0f))
+};
+
+unsigned short cubeIndices[] =
+{
+	// front plane
+	0, 2, 1,
+	0, 3, 2,
+	// back plane
+	7, 5, 6,
+	7, 4, 5,
+	// left plane
+	4, 1, 5,
+	4, 0, 1,
+	// right plane
+	3, 6, 2,
+	3, 7, 6,
+	// top plane
+	1, 6, 5,
+	1, 2, 6,
+	// bottom plane
+	4, 3, 0,
+	4, 7, 3,
+};
+
 Render::Render(QWidget* parent) : QGLWidget(parent)
 {
 	this->sceneRendered = new Scene();
 	this->instance = this; // Singleton, simplement car Qt lance le constructeur du Render dès le debut comme le constructeur d'Engine
+	this->angle = 1.0f;
 }
 
 Render::~Render(void)
@@ -61,6 +96,39 @@ void Render::initializeGL()
 	glEnable(GL_MULTISAMPLE);
 	static GLfloat lightPosition[4] = { 0.5, 5.0, 7.0, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+
+
+	m_program = new QGLShaderProgram(this);
+	m_program->addShaderFromSourceCode(QGLShader::Vertex, QString("..\Shaders\simple.vert"));
+	m_program->addShaderFromSourceCode(QGLShader::Fragment, QString("..\Shaders\simple.frag"));
+	m_program->link();
+	m_program->bind();
+
+	m_cubeVB = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+	m_cubeVB->create();
+	m_cubeVB->bind();
+	m_cubeVB->setUsagePattern(QOpenGLBuffer::StaticDraw);
+	m_cubeVB->allocate(sg_vertexes, sizeof(sg_vertexes));
+
+	m_cubeVAO.create();
+	m_cubeVAO.bind();
+
+	m_program->enableAttributeArray(0);
+	m_program->enableAttributeArray(1);
+
+	// TODO : METTRE EN PLACE CUBE
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, position)));
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, color)));
+
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+
+	m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
+	m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
+
+	m_cubeVAO.release();
+	m_cubeVB->release();
+	m_program->release();
 }
 
 void Render::resizeGL(int width, int height)
@@ -89,6 +157,7 @@ void Render::paintGL()
 			QColor c(Qt::red);
 			qglClearColor(c);
 			this->hide();
+			drawCube();
 			//draw1();
 		}
 	}
@@ -97,7 +166,9 @@ void Render::paintGL()
 		QColor c(Qt::green);
 		qglClearColor(c);
 	}
-
+	QColor c(Qt::green);
+	qglClearColor(c);
+	drawCube();
 	glLoadIdentity();
 	glTranslatef(0.0, 0.0, -10.0);
 	glRotatef(1 / 16.0, 1.0, 0.0, 0.0);
@@ -114,6 +185,19 @@ void Render::paintGL()
 	...
 	...
 	*/
+}
+
+void Render::drawCube()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(1.0, 1.0, 1.0);
+
+	glMatrixMode(GL_MODELVIEW);
+	glRotatef(angle, 0.0, 1.0, 0.0);
+
+
+	glFlush();
+
 }
 
 void Render::draw1()

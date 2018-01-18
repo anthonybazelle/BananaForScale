@@ -217,6 +217,7 @@
   <ItemGroup>
     <ClInclude Include="Component.h" />
     <ClInclude Include="SmartPtr.h" />
+    <ClInclude Include="Vertex.h" />
     <CustomBuild Include="GameObject.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing GameObject.h...</Message>

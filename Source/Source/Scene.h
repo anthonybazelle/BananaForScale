@@ -21,6 +21,7 @@ public:
 	std::vector<GameObject*> GetListGameObject();
 	GameObject* GetGameObjectByName(std::string& name);
 	void AddGameObject(GameObject* go);
+	std::string CheckName(std::string name);
 
 private:
 	std::string m_name;
@@ -28,6 +29,5 @@ private:
 	std::string m_pathFile;
 
 	void LoadDataFromFile();
-	std::string CheckName(std::string name);
 };
 

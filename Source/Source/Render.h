@@ -1,9 +1,14 @@
 #pragma once
 
-#include <GL/freeglut.h>
+#include <QGLShaderProgram>
+#include <QOpenGLBuffer>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLFunctions>
+#include <QOpenGLContext>
 #include <QGLWidget>
 #include <qevent.h>
 #include "Scene.h"
+#include "Vertex.h"
 
 //#ifndef SCENE_H
 //#define SCENE_H
@@ -36,7 +41,14 @@ protected:
 private:
 	void draw1();
 	void draw2();
+	void drawCube();
 
+
+	float angle;
+	QGLShaderProgram* m_program;
+	QOpenGLBuffer* m_cubeVB;
+	QOpenGLBuffer* m_cubeI;
+	QOpenGLVertexArrayObject m_cubeVAO;
 	QPoint lastPos;
 	Scene* sceneRendered;
 	static Render* instance;

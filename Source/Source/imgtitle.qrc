@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="imageShow">
+    <file>Resources/Rick-And-Morty-Show-Me-What-You-Got-Moon.png</file>
+  </qresource>
+</RCC>

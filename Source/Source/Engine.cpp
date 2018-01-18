@@ -70,6 +70,8 @@ void Engine::HideStartingWindow()
 	this->ui.title->hide();
 	this->ui.imageTitle->hide();
 
+	this->ui.labelComponent->show();
+	this->ui.labelGOList->show();
 	this->ui.renderer->show();
 	this->ui.sceneTab->show();
 	this->ui.GOTreeView->show();
@@ -81,6 +83,8 @@ void Engine::HideStartingWindow()
 
 void Engine::HideEditWindow()
 {
+	this->ui.labelComponent->hide();
+	this->ui.labelGOList->hide();
 	this->ui.renderer->hide();
 	this->ui.sceneTab->hide();
 	this->ui.GOTreeView->hide();
@@ -131,7 +135,7 @@ void Engine::ShowContextMenuGOList(const QPoint &pos)
 
 void Engine::AddNewGameObject()
 {
-	GameObject* newGo = new GameObject("New Game Object");
+	GameObject* newGo = new GameObject(GetActiveScene()->CheckName("New Game Object"));
 	GetActiveScene()->AddGameObject(newGo);
 	ClearInterfaceGO();
 	LoadGOListInterface(GetActiveScene()->GetName());
@@ -200,7 +204,19 @@ std::string Engine::CheckName(std::string name)
 
 		if (isChecked2)
 			break;
-		name = name + " (" + std::to_string(countSame) + ")";
+
+		int indexOpen = 0;
+		if ((indexOpen = name.find("(")) != std::string::npos)
+		{
+			int toIncrement = atoi(name.substr(indexOpen + 1, name.find(")") - indexOpen).c_str());
+			std::string toReplace = "(" + std::to_string(toIncrement) + ")";
+			name.replace(indexOpen, toReplace.length(), "(" + std::to_string(toIncrement + 1) + ")");
+		}
+		else
+		{
+			name = name + " (" + std::to_string(countSame) + ")";
+		}
+
 		++countSame;
 		isChecked2 = true;
 	}
@@ -369,6 +385,8 @@ void Engine::GOSelected(const QModelIndex& index)
 	QString goName = item->text();
 	GameObject* go = this->GetActiveScene()->GetGameObjectByName(goName.toStdString());
 	this->goSelected = go;
+	ClearInterfaceComponent();
+	LoadComponentListInterface(GetActiveScene(), goName.toStdString());
 }
 
 void Engine::ClearAllInterface()
@@ -388,11 +406,11 @@ void Engine::ClearAllInterface()
 
 void Engine::ClearInterfaceComponent()
 {
-
 	// On reset la liste des component
-	for (int i = 0; i < ui.componentToolBox->count(); ++i)
+	int count = ui.componentToolBox->count();
+	for (int i = 0; i < count; ++i)
 	{
-		ui.componentToolBox->removeItem(i);
+		ui.componentToolBox->removeItem(0);
 	}
 }
 

@@ -48,7 +48,7 @@ public:
     QPushButton *translateBtn;
     QTreeView *GOTreeView;
     QLabel *labelGOList;
-    QLabel *label;
+    QLabel *labelComponent;
     QToolBox *componentToolBox;
     QWidget *page;
     QWidget *page_2;
@@ -105,16 +105,16 @@ public:
         labelGOList = new QLabel(centralWidget);
         labelGOList->setObjectName(QStringLiteral("labelGOList"));
         labelGOList->setGeometry(QRect(10, 0, 111, 16));
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(10, 340, 111, 16));
+        labelComponent = new QLabel(centralWidget);
+        labelComponent->setObjectName(QStringLiteral("labelComponent"));
+        labelComponent->setGeometry(QRect(10, 340, 111, 16));
         componentToolBox = new QToolBox(centralWidget);
         componentToolBox->setObjectName(QStringLiteral("componentToolBox"));
         componentToolBox->setEnabled(true);
         componentToolBox->setGeometry(QRect(0, 360, 151, 291));
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
-        page->setGeometry(QRect(0, 0, 151, 237));
+        page->setGeometry(QRect(0, 0, 98, 28));
         componentToolBox->addItem(page, QStringLiteral("Page 1"));
         page_2 = new QWidget();
         page_2->setObjectName(QStringLiteral("page_2"));
@@ -170,7 +170,7 @@ public:
         scaleBtn->setText(QApplication::translate("EngineClass", "Scale", Q_NULLPTR));
         translateBtn->setText(QApplication::translate("EngineClass", "Translate", Q_NULLPTR));
         labelGOList->setText(QApplication::translate("EngineClass", "GameObject List :", Q_NULLPTR));
-        label->setText(QApplication::translate("EngineClass", "Selected GameObject :", Q_NULLPTR));
+        labelComponent->setText(QApplication::translate("EngineClass", "Component :", Q_NULLPTR));
         componentToolBox->setItemText(componentToolBox->indexOf(page), QApplication::translate("EngineClass", "Page 1", Q_NULLPTR));
         componentToolBox->setItemText(componentToolBox->indexOf(page_2), QApplication::translate("EngineClass", "Page 2", Q_NULLPTR));
         title->setText(QApplication::translate("EngineClass", "Welcome in BananaForScale", Q_NULLPTR));
