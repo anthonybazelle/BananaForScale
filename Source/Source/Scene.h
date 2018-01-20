@@ -16,6 +16,8 @@ public:
 	Scene(std::string pathFile);
 	~Scene(void);
 
+	std::string GetPathFile();
+	void SetPathFile(std::string path);
 	std::string GetName();
 	void SetName(std::string name);
 	std::vector<GameObject*> GetListGameObject();

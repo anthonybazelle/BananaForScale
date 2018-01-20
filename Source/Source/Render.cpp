@@ -1,5 +1,6 @@
 #include "Render.h"
-
+#include <QColorDialog>
+#include <GL/glu.h>
 
 Render* Render::instance = 0;
 
@@ -42,6 +43,19 @@ Render::Render(QWidget* parent) : QGLWidget(parent)
 	this->sceneRendered = new Scene();
 	this->instance = this; // Singleton, simplement car Qt lance le constructeur du Render dès le debut comme le constructeur d'Engine
 	this->angle = 1.0f;
+	this->currentAction = Action::SELECTION;
+
+	// TEST CUBE
+	setFormat(QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer));
+	rotationX = 0;
+	rotationY = 0;
+	rotationZ = 0;
+	faceColors[0] = Qt::red;
+	faceColors[1] = Qt::green;
+	faceColors[2] = Qt::blue;
+	faceColors[3] = Qt::cyan;
+	faceColors[4] = Qt::yellow;
+	faceColors[5] = Qt::magenta;
 }
 
 Render::~Render(void)
@@ -82,6 +96,7 @@ void Render::SetCurrentSceneRendered(Scene* s)
 
 void Render::initializeGL()
 {
+	/*
 	glClearColor(0.2, 0.2, 0.2, 1);
 
 	//this->logo = new QtLogo(this, 64);
@@ -128,11 +143,19 @@ void Render::initializeGL()
 
 	m_cubeVAO.release();
 	m_cubeVB->release();
-	m_program->release();
+	m_program->release();*/
+
+
+	// TEST CUBE
+	qglClearColor(Qt::black);
+	glShadeModel(GL_FLAT);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 }
 
 void Render::resizeGL(int width, int height)
 {
+	/*
 	int side = qMin(width, height);
 	glViewport((width - side) / 2, (height - side) / 2, side, side);
 
@@ -143,11 +166,21 @@ void Render::resizeGL(int width, int height)
 #else
 	glOrtho(-0.5, +0.5, -0.5, +0.5, 4.0, 15.0);
 #endif
+	glMatrixMode(GL_MODELVIEW);*/
+
+	// TEST CUBE 
+	glViewport(0, 0, width, height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	GLfloat x = (GLfloat)width / height;
+	glFrustum(-x, x, -1.0, 1.0, 4.0, 15.0);
 	glMatrixMode(GL_MODELVIEW);
 }
 
+
 void Render::paintGL()
 {
+	/*
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (this->sceneRendered->GetName() != "")
@@ -171,7 +204,15 @@ void Render::paintGL()
 	drawCube();
 	glLoadIdentity();
 	glTranslatef(0.0, 0.0, -10.0);
-	glRotatef(1 / 16.0, 1.0, 0.0, 0.0);
+	glRotatef(1 / 16.0, 1.0, 0.0, 0.0);*/
+
+
+	// TEST CUBE
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	drawCubeCop();
+
+
+
 	//glutSolidSphere(1, 20, 20);
 	//draw();
 	//glLoadIdentity();
@@ -187,6 +228,32 @@ void Render::paintGL()
 	*/
 }
 
+int Render::faceAtPosition(const QPoint &pos)
+{
+	const int MaxSize = 512;
+	GLuint buffer[MaxSize];
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	glSelectBuffer(MaxSize, buffer);
+	glRenderMode(GL_SELECT);
+	glInitNames();
+	glPushName(0);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPickMatrix((GLdouble)pos.x(),
+		(GLdouble)(viewport[3] - pos.y()),
+		5.0, 5.0, viewport);
+	GLfloat x = (GLfloat)width() / height();
+	glFrustum(-x, x, -1.0, 1.0, 4.0, 15.0);
+	drawCubeCop();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	if (!glRenderMode(GL_RENDER))
+		return -1;
+	return buffer[3];
+}
+
 void Render::drawCube()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -200,6 +267,64 @@ void Render::drawCube()
 
 }
 
+// TEST CUBE
+void Render::drawCubeCop()
+{
+	GameObject::Point p;
+	p.x = 2.f;
+	p.y = 0.5f;
+	p.z = 0.f;
+
+	static const GLfloat coords[6][4][3] = {
+		{ { +1.0 + p.x, -1.0, +1.0 },{ +1.0 + p.x, -1.0, -1.0 },
+		{ +1.0 + p.x, +1.0, -1.0 },{ +1.0 + p.x, +1.0, +1.0 } },
+
+		{ { -1.0 + p.x, -1.0, -1.0 },{ -1.0 + p.x, -1.0, +1.0 },
+		{ -1.0 + p.x, +1.0, +1.0 },{ -1.0 + p.x, +1.0, -1.0 } },
+
+		{ { +1.0 + p.x, -1.0, -1.0 },{ -1.0 + p.x, -1.0, -1.0 },
+		{ -1.0 + p.x, +1.0, -1.0 },{ +1.0 + p.x, +1.0, -1.0 } },
+
+		{ { -1.0 + p.x, -1.0, +1.0 },{ +1.0 + p.x, -1.0, +1.0 },
+		{ +1.0 + p.x, +1.0, +1.0 },{ -1.0 + p.x, +1.0, +1.0 } },
+
+		{ { -1.0 + p.x, -1.0, -1.0 },{ +1.0 + p.x, -1.0, -1.0 },
+		{ +1.0 + p.x, -1.0, +1.0 },{ -1.0 + p.x, -1.0, +1.0 } },
+
+		{ { -1.0 + p.x, +1.0, +1.0 },{ +1.0 + p.x, +1.0, +1.0 },
+		{ +1.0 + p.x, +1.0, -1.0 },{ -1.0 + p.x, +1.0, -1.0 } }
+	};
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.0, 0.0, -10.0);
+	glRotatef(rotationX, 1.0, 0.0, 0.0);
+	glRotatef(rotationY, 0.0, 1.0, 0.0);
+	glRotatef(rotationZ, 0.0, 0.0, 1.0);
+	for (int i = 0; i < 6; ++i) {
+		glLoadName(i);
+		glBegin(GL_QUADS);
+		qglColor(faceColors[i]);
+		for (int j = 0; j < 4; ++j) {
+			glVertex3f(coords[i][j][0], coords[i][j][1],
+				coords[i][j][2]);
+		}
+		glEnd();
+	}
+}
+
+void Render::mouseDoubleClickEvent(QMouseEvent *event)
+{
+	int face = faceAtPosition(event->pos());
+	if (face != -1) {
+		QColor color = QColorDialog::getColor(faceColors[face],
+			this);
+		if (color.isValid()) {
+			faceColors[face] = color;
+			updateGL();
+		}
+	}
+}
+/*
 void Render::draw1()
 {
 	qglColor(Qt::red);
@@ -236,7 +361,7 @@ void Render::draw1()
 	glVertex3f(0, 0, 1.2);
 	glEnd();
 }
-
+*/
 void Render::draw2()
 {
 	qglColor(Qt::red);
@@ -251,13 +376,68 @@ void Render::draw2()
 
 void Render::mousePressEvent(QMouseEvent *event)
 {
-	this->lastPos = event->pos();
+	if (event->button() == Qt::LeftButton) 
+	{
+		this->lastPos = event->pos();
+	}
+	else if (event->button() == Qt::RightButton) 
+	{
+		QMenu contextMenu(tr("Context menu"), this);
+
+		QAction actionDeselect("Deselect this GameObject", this);
+		connect(&actionDeselect, &QAction::triggered, this, &Render::SetDeselectAction);
+
+		QAction actionScale("Scale this GameObject", this);
+		connect(&actionScale, &QAction::triggered, this, &Render::SetScaleAction);
+
+		QAction actionRotate("Rotate this GameObject", this);
+		connect(&actionRotate, &QAction::triggered, this, &Render::SetRotateAction);
+
+		QAction actionTranslate("Translate this GameObject", this);
+		connect(&actionTranslate, &QAction::triggered, this, &Render::SetTranslateAction);
+
+		if (this->currentAction != Render::Action::SELECTION)
+		{
+			contextMenu.addAction(&actionDeselect);
+			contextMenu.addAction(&actionScale);
+			contextMenu.addAction(&actionRotate);
+			contextMenu.addAction(&actionTranslate);
+		}
+		else
+		{
+			contextMenu.addAction(&actionScale);
+			contextMenu.addAction(&actionRotate);
+			contextMenu.addAction(&actionTranslate);
+		}
+		
+		contextMenu.exec(mapToGlobal(event->pos()));
+	}
+}
+
+void Render::SetRotateAction()
+{
+	this->currentAction = Action::ROTATE;
+}
+
+void Render::SetTranslateAction()
+{
+	this->currentAction = Action::TRANSLATE;
+}
+
+void Render::SetScaleAction()
+{
+	this->currentAction = Action::SCALE;
+}
+
+void Render::SetDeselectAction()
+{
+	this->currentAction = Action::SELECTION;
 }
 
 void Render::mouseMoveEvent(QMouseEvent *event)
 {
-	int dx = event->x() - lastPos.x();
-	int dy = event->y() - lastPos.y();
+	//int dx = event->x() - lastPos.x();
+	//int dy = event->y() - lastPos.y();
 
 	// TODO :: Ici il faut gerer trois differents etats : rotate, translate, scale
 	// TODO :: Verifier si et quel gameObject est selectionne et faire l'action attendu celon l'etat
@@ -274,5 +454,20 @@ void Render::mouseMoveEvent(QMouseEvent *event)
 		this->SetZRotation(zRot + 8 * dx);
 	}
 	*/
+	//lastPos = event->pos();
+
+	// TEST CUBE
+	GLfloat dx = (GLfloat)(event->x() - lastPos.x()) / width();
+	GLfloat dy = (GLfloat)(event->y() - lastPos.y()) / height();
+	if (event->buttons() & Qt::LeftButton) {
+		rotationX += 180 * dy;
+		rotationY += 180 * dx;
+		updateGL();
+	}
+	else if (event->buttons() & Qt::RightButton) {
+		rotationX += 180 * dy;
+		rotationZ += 180 * dx;
+		updateGL();
+	}
 	lastPos = event->pos();
 }

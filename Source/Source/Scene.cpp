@@ -5,6 +5,7 @@ Scene::Scene(void)
 {
 	this->listGameObject = std::vector<GameObject*>();
 	this->m_name = "";
+	this->m_pathFile = "";
 }
 
 Scene::Scene(std::string pathFile)
@@ -52,6 +53,16 @@ GameObject* Scene::GetGameObjectByName(std::string& name)
 void Scene::SetName(std::string name)
 {
 	this->m_name = name;
+}
+
+void Scene::SetPathFile(std::string path)
+{
+	this->m_pathFile = path;
+}
+
+std::string Scene::GetPathFile()
+{
+	return this->m_pathFile;
 }
 
 std::string Scene::CheckName(std::string name)

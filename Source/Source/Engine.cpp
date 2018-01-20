@@ -39,12 +39,12 @@ Engine::Engine(QWidget *parent)
 	CreateMenuBar();
 
 	// Pour les tests et présentation p-e, on load une scene à l'ouverture
-	Scene* defaultScene = new Scene();
-	defaultScene->SetName("DefaultScene");
-	this->listScene.push_back(defaultScene);
-	this->activeScene = defaultScene;	
+	//Scene* defaultScene = new Scene();
+	//defaultScene->SetName("DefaultSceneBFS");
+	//this->listScene.push_back(defaultScene);
+	//this->activeScene = defaultScene;	
 	HideEditWindow();
-	Render::getInstance()->SetCurrentSceneRendered(defaultScene);
+	//Render::getInstance()->SetCurrentSceneRendered(defaultScene);
 }
 
 Engine::~Engine()
@@ -110,6 +110,7 @@ void Engine::CreateNewScene()
 	ui.sceneTab->addTab(newTab, QString(newScene->GetName().c_str()));
 	ui.sceneTab->setCurrentIndex(ui.sceneTab->count());
 
+	Render::getInstance()->SetCurrentSceneRendered(newScene);
 }
 
 Engine* Engine::getInstance()
@@ -226,7 +227,6 @@ std::string Engine::CheckName(std::string name)
 
 void Engine::OpenScene()
 {
-	// TODO : Traiter le XML associe a la Scene ouverte, et l'afficher dans le Render
 	// Mettre a jour la liste du GameObject associe a la scene
 	QString fileName = QFileDialog::getOpenFileName(
 		this,
@@ -255,6 +255,8 @@ void Engine::OpenScene()
 	{
 		delete openScene;
 	}
+
+	Render::getInstance()->SetCurrentSceneRendered(openScene);
 }
 
 void Engine::LoadGOListInterface(std::string& sceneName)
@@ -267,8 +269,6 @@ void Engine::LoadGOListInterface(std::string& sceneName)
 		QStandardItem* newItem = new QStandardItem(0);
 		newItem->setText(QString(scene->GetListGameObject()[i]->GetName().c_str()));
 		this->model->appendRow(newItem);
-
-		//LoadComponentListInterface(scene, scene->GetListGameObject()[i]->GetName());
 	}
 
 	ui.GOTreeView->setModel(this->model);
@@ -280,7 +280,6 @@ void Engine::LoadComponentListInterface(Scene* scene, std::string& goName)
 
 	for (int i = 0; i < go->GetListComponent().size(); ++i)
 	{
-		//ui.componentToolBox
 		QFrame* newPage = new QFrame();
 		ui.componentToolBox->addItem(newPage, QString(go->GetListComponent()[i]->GetType().c_str()));
 	}
@@ -305,11 +304,143 @@ void Engine::SceneSwitch()
 void Engine::SaveCurrentScene()
 {
 	// TODO : Serialiser dans un XML les gameObjects de la Scene affiche dans le Render de l'engine, ainsi que leur position (du point de pivot deja)
+	Scene* scene = this->GetActiveScene();
+
+	if (scene->GetPathFile().compare("") == 0)
+	{
+		QString fileName = QFileDialog::getSaveFileName(this, tr("Save scene"),
+			"C:/",
+			tr("YO File (*.yo)"));
+
+		scene->SetPathFile(fileName.toStdString());
+	}
+
+	std::ofstream fileScene;
+	fileScene.open(scene->GetPathFile());
+
+	if (scene->GetName().find("New scene") != std::string::npos)
+	{
+		bool ok;
+		QString sceneName = QInputDialog::getText(this, tr("Enter a name for the scene :"),
+			tr("User name:"), QLineEdit::Normal,
+			QDir::home().dirName(), &ok);
+
+		ui.sceneTab->setTabText(ui.sceneTab->currentIndex(), sceneName);
+		scene->SetName(sceneName.toStdString());
+	}
+
+	// Header classique du fichier de scene
+	fileScene << "<Scene>\n";
+	fileScene << "\t<name>" << scene->GetName() << "</name>\n";
+	fileScene << "\t<GameObjectList>\n";
+
+	for (int i = 0; i < scene->GetListGameObject().size(); ++i)
+	{
+		fileScene << "\t\t<GameObject>\n";
+		fileScene << "\t\t\t<name>" << scene->GetListGameObject()[i]->GetName() << "</name>\n";
+
+		fileScene << "\t\t\t<pivotX>" << scene->GetListGameObject()[i]->GetPivot().x << "</pivotX>\n";
+		fileScene << "\t\t\t<pivotY>" << scene->GetListGameObject()[i]->GetPivot().y << "</pivotY>\n";
+		fileScene << "\t\t\t<pivotZ>" << scene->GetListGameObject()[i]->GetPivot().z << "</pivotZ>\n";
+
+		fileScene << "\t\t\t<ComponentList>\n";
+
+		for (int iComp = 0; iComp < scene->GetListGameObject()[i]->GetListComponent().size(); ++iComp)
+		{
+			fileScene << "\t\t\t\t<Component>\n";
+			fileScene << "\t\t\t\t\t<type>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->GetType() << "</type>\n";
+			fileScene << "\t\t\t\t</Component>\n";
+		}
+		
+		fileScene << "\t\t\t</ComponentList>\n";
+		fileScene << "\t\t</GameObject>\n";
+	}
+
+	fileScene << "\t</GameObjectList>\n";
+	fileScene << "</Scene>\n";
+
+	fileScene.close();
+
+	QMessageBox msgBox;
+	msgBox.setText(tr("The scene has been saved succesfuly."));
+	msgBox.exec();
 }
 
 void Engine::SaveAllScenes()
 {
-	// TODO : Serialiser dans des XML les gameObjects des Scenes ouvertes dans l'engine, ainsi que leur position (du point de pivot deja)
+	for (int iScene = 0; iScene < this->listScene.size(); ++iScene)
+	{
+		Scene* scene = this->listScene[iScene];
+
+		if (scene->GetPathFile().compare("") == 0)
+		{
+			QString fileName = QFileDialog::getSaveFileName(this, tr("Save scene"),
+				"C:/",
+				tr("YO File (*.yo)"));
+
+			scene->SetPathFile(fileName.toStdString());
+		}
+
+		std::ofstream fileScene;
+		fileScene.open(scene->GetPathFile());
+
+		if (scene->GetName().find("New scene") != std::string::npos)
+		{
+			bool ok;
+			QString sceneName = QInputDialog::getText(this, tr("Enter a name for the scene :"),
+				tr("User name:"), QLineEdit::Normal,
+				QDir::home().dirName(), &ok);
+
+			// Pas de fonction permettant de set un nouveau label à un index de widget
+			// Obligé de reparcourir chaque widget pour récupérer leur nom pour le comparer et renommer si c'est le bon, vive Qt...
+			for (int u = 0; u < ui.sceneTab->count(); ++u)
+			{
+				if (ui.sceneTab->tabText(u).toStdString().compare(scene->GetName()) == 0 && ok && !sceneName.isEmpty())
+				{
+					ui.sceneTab->setTabText(u, sceneName);
+				}
+			}
+
+			scene->SetName(sceneName.toStdString());
+		}
+
+		// Header classique du fichier de scene
+		fileScene << "<Scene>\n";
+		fileScene << "\t<name>" << scene->GetName() << "</name>\n";
+		fileScene << "\t<GameObjectList>\n";
+
+		for (int i = 0; i < scene->GetListGameObject().size(); ++i)
+		{
+			fileScene << "\t\t<GameObject>\n";
+			fileScene << "\t\t\t<name>" << scene->GetListGameObject()[i]->GetName() << "</name>\n";
+
+			fileScene << "\t\t\t<pivotX>" << scene->GetListGameObject()[i]->GetPivot().x << "</pivotX>\n";
+			fileScene << "\t\t\t<pivotY>" << scene->GetListGameObject()[i]->GetPivot().y << "</pivotY>\n";
+			fileScene << "\t\t\t<pivotZ>" << scene->GetListGameObject()[i]->GetPivot().z << "</pivotZ>\n";
+
+			fileScene << "\t\t\t<ComponentList>\n";
+
+			for (int iComp = 0; iComp < scene->GetListGameObject()[i]->GetListComponent().size(); ++iComp)
+			{
+				fileScene << "\t\t\t\t<Component>\n";
+				fileScene << "\t\t\t\t\t<type>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->GetType() << "</type>\n";
+				fileScene << "\t\t\t\t</Component>\n";
+			}
+
+			fileScene << "\t\t\t</ComponentList>\n";
+			fileScene << "\t\t</GameObject>\n";
+		}
+
+		fileScene << "\t</GameObjectList>\n";
+		fileScene << "</Scene>\n";
+
+		fileScene.close();
+	}
+
+
+	QMessageBox msgBox;
+	msgBox.setText(tr("All opened scene have been saved succesfuly."));
+	msgBox.exec();
 }
 
 void Engine::CreateMenuBar()
