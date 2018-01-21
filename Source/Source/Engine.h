@@ -4,6 +4,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtCore>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QtGui>
 #include <QBitmap>
 #include <QStandardItemModel>
@@ -42,6 +43,9 @@ private:
 	QAction* actSaveScene;
 	QAction* actSaveAllScene;
 	QStandardItemModel* model; // modele à insérer dans le QTreeView qui correspond à la liste des GameObject de la scène selectionnée
+	QModelIndex indiceitemGOSelected;
+	QString goNameSelected;
+
 	std::vector<Scene*> listScene;
 	Scene* activeScene;
 	GameObject* goSelected;
@@ -64,6 +68,12 @@ private:
 private slots:
 	void AddNewGameObject();
 	void AddNewComponent();
+
+	void RemoveGameObject();
+	void RemoveComponent();
+
+	void ComponentSelected(int);
+
 	void ShowContextMenuGOList(const QPoint &pos);
 	void ShowContextMenuComponent(const QPoint &pos);
 	void ExitApplication();

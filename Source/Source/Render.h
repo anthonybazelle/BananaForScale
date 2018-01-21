@@ -8,6 +8,7 @@
 #include <QGLWidget>
 #include <QMenu>
 #include <qevent.h>
+#include <mutex>
 #include "Scene.h"
 #include "Vertex.h"
 
@@ -34,6 +35,8 @@ public:
 	Scene* GetCurrentSceneRendered();
 	void SetCurrentSceneRendered(Scene* s);
 
+
+	std::mutex mutex;
 // en public pour la simple raison qu'elle est utilisé dans engine.cpp et que cet un enum déclaré dans Render donc impossible avec des accesseurs
 
 protected:
@@ -45,16 +48,24 @@ protected:
 	void mouseDoubleClickEvent(QMouseEvent *event);
 
 private:
-	void draw1();
-	void draw2();
-	void drawCube();
+	void drawCube(Component::Point& position, bool isSelected);
+	void drawTriangle(Component::Point& position, bool isSelected);
+	void drawSphere(Component::Point& position, bool isSelected);
 
 	// TEST CUBE
-	void drawCubeCop();
 	int faceAtPosition(const QPoint &pos);
 	GLfloat rotationX;
 	GLfloat rotationY;
 	GLfloat rotationZ;
+
+	GLfloat translateX;
+	GLfloat translateY;
+	GLfloat translateZ;
+
+	GLfloat scaleX;
+	GLfloat scaleY;
+	GLfloat scaleZ;
+
 	QColor faceColors[6];
 	Action currentAction;
 

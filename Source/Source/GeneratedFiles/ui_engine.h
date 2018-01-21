@@ -43,9 +43,6 @@ public:
     QWidget *Scene1;
     QWidget *tab_2;
     QOpenGLWidget *sceneRender2;
-    QPushButton *rotateBtn;
-    QPushButton *scaleBtn;
-    QPushButton *translateBtn;
     QTreeView *GOTreeView;
     QLabel *labelGOList;
     QLabel *labelComponent;
@@ -77,7 +74,7 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         exitBtn = new QPushButton(centralWidget);
         exitBtn->setObjectName(QStringLiteral("exitBtn"));
-        exitBtn->setGeometry(QRect(1020, 630, 75, 23));
+        exitBtn->setGeometry(QRect(1040, 640, 75, 23));
         sceneTab = new QTabWidget(centralWidget);
         sceneTab->setObjectName(QStringLiteral("sceneTab"));
         sceneTab->setGeometry(QRect(160, 0, 851, 21));
@@ -90,15 +87,6 @@ public:
         sceneRender2->setObjectName(QStringLiteral("sceneRender2"));
         sceneRender2->setGeometry(QRect(0, 0, 851, 641));
         sceneTab->addTab(tab_2, QString());
-        rotateBtn = new QPushButton(centralWidget);
-        rotateBtn->setObjectName(QStringLiteral("rotateBtn"));
-        rotateBtn->setGeometry(QRect(1020, 40, 91, 23));
-        scaleBtn = new QPushButton(centralWidget);
-        scaleBtn->setObjectName(QStringLiteral("scaleBtn"));
-        scaleBtn->setGeometry(QRect(1020, 60, 91, 23));
-        translateBtn = new QPushButton(centralWidget);
-        translateBtn->setObjectName(QStringLiteral("translateBtn"));
-        translateBtn->setGeometry(QRect(1020, 20, 91, 23));
         GOTreeView = new QTreeView(centralWidget);
         GOTreeView->setObjectName(QStringLiteral("GOTreeView"));
         GOTreeView->setGeometry(QRect(0, 20, 161, 301));
@@ -114,7 +102,7 @@ public:
         componentToolBox->setGeometry(QRect(0, 360, 151, 291));
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
-        page->setGeometry(QRect(0, 0, 98, 28));
+        page->setGeometry(QRect(0, 0, 151, 237));
         componentToolBox->addItem(page, QStringLiteral("Page 1"));
         page_2 = new QWidget();
         page_2->setObjectName(QStringLiteral("page_2"));
@@ -122,7 +110,7 @@ public:
         componentToolBox->addItem(page_2, QStringLiteral("Page 2"));
         renderer = new Render(centralWidget);
         renderer->setObjectName(QStringLiteral("renderer"));
-        renderer->setGeometry(QRect(160, 20, 851, 631));
+        renderer->setGeometry(QRect(160, 20, 951, 611));
         title = new QLabel(centralWidget);
         title->setObjectName(QStringLiteral("title"));
         title->setGeometry(QRect(330, 70, 531, 101));
@@ -166,9 +154,6 @@ public:
         exitBtn->setText(QApplication::translate("EngineClass", "Exit", Q_NULLPTR));
         sceneTab->setTabText(sceneTab->indexOf(Scene1), QApplication::translate("EngineClass", "Tab 1", Q_NULLPTR));
         sceneTab->setTabText(sceneTab->indexOf(tab_2), QApplication::translate("EngineClass", "Tab 2", Q_NULLPTR));
-        rotateBtn->setText(QApplication::translate("EngineClass", "Rotate", Q_NULLPTR));
-        scaleBtn->setText(QApplication::translate("EngineClass", "Scale", Q_NULLPTR));
-        translateBtn->setText(QApplication::translate("EngineClass", "Translate", Q_NULLPTR));
         labelGOList->setText(QApplication::translate("EngineClass", "GameObject List :", Q_NULLPTR));
         labelComponent->setText(QApplication::translate("EngineClass", "Component :", Q_NULLPTR));
         componentToolBox->setItemText(componentToolBox->indexOf(page), QApplication::translate("EngineClass", "Page 1", Q_NULLPTR));

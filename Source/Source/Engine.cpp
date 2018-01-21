@@ -25,16 +25,15 @@ Engine::Engine(QWidget *parent)
 	//ui.imageTitle->show();
 	this->model = new QStandardItemModel(0, 1);
 	this->goSelected = NULL;
-
 	ui.GOTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 	ui.componentToolBox->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	connect(ui.exitBtn, SIGNAL(clicked()), this, SLOT(ExitApplication()));
-	connect(ui.rotateBtn, SIGNAL(clicked()), this, SLOT(Rotate()));
 	connect(ui.sceneTab, SIGNAL(currentChanged(int)), this, SLOT(SceneSwitch()));
 	connect(ui.GOTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(GOSelected(QModelIndex)));
 	connect(ui.GOTreeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ShowContextMenuGOList(const QPoint &)));
 	connect(ui.componentToolBox, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ShowContextMenuComponent(const QPoint &)));
+	connect(ui.componentToolBox, SIGNAL(currentChanged(int)), this, SLOT(ComponentSelected(int)));
 
 	CreateMenuBar();
 
@@ -76,9 +75,6 @@ void Engine::HideStartingWindow()
 	this->ui.sceneTab->show();
 	this->ui.GOTreeView->show();
 	this->ui.componentToolBox->show();
-	this->ui.rotateBtn->show();
-	this->ui.translateBtn->show();
-	this->ui.scaleBtn->show();
 }
 
 void Engine::HideEditWindow()
@@ -89,9 +85,28 @@ void Engine::HideEditWindow()
 	this->ui.sceneTab->hide();
 	this->ui.GOTreeView->hide();
 	this->ui.componentToolBox->hide();
-	this->ui.rotateBtn->hide();
-	this->ui.translateBtn->hide();
-	this->ui.scaleBtn->hide();
+}
+
+void Engine::ComponentSelected(int index)
+{
+	Render::getInstance()->mutex.lock();
+
+	for (int i = 0; i < ui.componentToolBox->count(); ++i)
+	{
+		QString name = ui.componentToolBox->itemText(i);
+		Component* comp = this->goSelected->GetComponentByName(name.toStdString());
+		if (comp->GetIsSelected())
+		{
+			comp->SetIsSelected(false);
+			break;
+		}
+	}
+
+	QString name = ui.componentToolBox->itemText(index);
+	Component* comp = this->goSelected->GetComponentByName(name.toStdString());
+	comp->SetIsSelected(true);
+
+	Render::getInstance()->mutex.unlock();
 }
 
 void Engine::CreateNewScene()
@@ -127,11 +142,29 @@ void Engine::ShowContextMenuGOList(const QPoint &pos)
 {
 	QMenu contextMenu(tr("Context menu"), this);
 
-	QAction action1("Add a Game Object", this);
-	connect(&action1, SIGNAL(triggered()), this, SLOT(AddNewGameObject()));
-	contextMenu.addAction(&action1);
+	QAction actionAdd("Add a Game Object", this);
+	connect(&actionAdd, SIGNAL(triggered()), this, SLOT(AddNewGameObject()));
+	contextMenu.addAction(&actionAdd);
+
+	QAction actionRmv("Remove selected Game Object", this);
+	connect(&actionRmv, SIGNAL(triggered()), this, SLOT(RemoveGameObject()));
+	contextMenu.addAction(&actionRmv);
 
 	contextMenu.exec(mapToGlobal(pos));
+}
+
+void Engine::RemoveGameObject()
+{
+	bool res = this->model->removeRow(indiceitemGOSelected.row());
+}
+
+void Engine::RemoveComponent()
+{
+	GameObject* go = this->GetActiveScene()->GetGameObjectByName(goNameSelected.toStdString());
+	std::string nameComponent = ui.componentToolBox->itemText(ui.componentToolBox->currentIndex()).toStdString();
+	Component* comp = go->GetComponentByName(nameComponent);
+	go->RemoveComponent(go->GetComponentByName(ui.componentToolBox->itemText(ui.componentToolBox->currentIndex()).toStdString()));
+	ui.componentToolBox->removeItem(ui.componentToolBox->currentIndex());
 }
 
 void Engine::AddNewGameObject()
@@ -144,19 +177,29 @@ void Engine::AddNewGameObject()
 
 void Engine::AddNewComponent()
 {
-	Component* newComponent = new Component(NULL);
+	Render::getInstance()->mutex.lock();
+	QStringList listType;
+	listType << "Cube" << "Sphere" << "Triangle";
+	QString typeChoice = QInputDialog::getItem(this, "Select a type of component :", "Type : ", listType);
+	Component* newComponent = new Component(this->goSelected->GetListComponent().size(), std::to_string(this->goSelected->GetListComponent().size()) + " - " + typeChoice.toStdString(), NULL);
+	newComponent->SetType(typeChoice.toStdString());
 	this->goSelected->AddComponent(newComponent);
 	ClearInterfaceComponent();
 	LoadComponentListInterface(GetActiveScene(), this->goSelected->GetName());
+	Render::getInstance()->mutex.unlock();
 }
 
 void Engine::ShowContextMenuComponent(const QPoint &pos)
 {
 	QMenu contextMenu(tr("Context menu"), this);
 
-	QAction action1("Add a component", this);
-	connect(&action1, SIGNAL(triggered()), this, SLOT(AddNewComponent()));
-	contextMenu.addAction(&action1);
+	QAction actionAdd("Add a component", this);
+	connect(&actionAdd, SIGNAL(triggered()), this, SLOT(AddNewComponent()));
+	contextMenu.addAction(&actionAdd);
+
+	QAction actionRmv("Remove selected component", this);
+	connect(&actionRmv, SIGNAL(triggered()), this, SLOT(RemoveComponent()));
+	contextMenu.addAction(&actionRmv);
 
 	contextMenu.exec(mapToGlobal(pos));
 }
@@ -276,14 +319,17 @@ void Engine::LoadGOListInterface(std::string& sceneName)
 
 void Engine::LoadComponentListInterface(Scene* scene, std::string& goName)
 {
+	Render::getInstance()->mutex.lock();
+
 	GameObject* go = scene->GetGameObjectByName(goName);
 
 	for (int i = 0; i < go->GetListComponent().size(); ++i)
 	{
 		QFrame* newPage = new QFrame();
-		ui.componentToolBox->addItem(newPage, QString(go->GetListComponent()[i]->GetType().c_str()));
+		ui.componentToolBox->addItem(newPage, QString((std::to_string(go->GetListComponent()[i]->GetId()) + " - " + go->GetListComponent()[i]->GetType()).c_str()));
 	}
 
+	Render::getInstance()->mutex.unlock();
 }
 
 void Engine::SceneSwitch()
@@ -303,6 +349,7 @@ void Engine::SceneSwitch()
 
 void Engine::SaveCurrentScene()
 {
+	Render::getInstance()->mutex.lock();
 	// TODO : Serialiser dans un XML les gameObjects de la Scene affiche dans le Render de l'engine, ainsi que leur position (du point de pivot deja)
 	Scene* scene = this->GetActiveScene();
 
@@ -360,6 +407,7 @@ void Engine::SaveCurrentScene()
 	fileScene << "</Scene>\n";
 
 	fileScene.close();
+	Render::getInstance()->mutex.unlock();
 
 	QMessageBox msgBox;
 	msgBox.setText(tr("The scene has been saved succesfuly."));
@@ -368,6 +416,8 @@ void Engine::SaveCurrentScene()
 
 void Engine::SaveAllScenes()
 {
+	Render::getInstance()->mutex.lock();
+
 	for (int iScene = 0; iScene < this->listScene.size(); ++iScene)
 	{
 		Scene* scene = this->listScene[iScene];
@@ -437,6 +487,7 @@ void Engine::SaveAllScenes()
 		fileScene.close();
 	}
 
+	Render::getInstance()->mutex.unlock();
 
 	QMessageBox msgBox;
 	msgBox.setText(tr("All opened scene have been saved succesfuly."));
@@ -513,7 +564,9 @@ Ui::EngineClass* Engine::GetUI()
 void Engine::GOSelected(const QModelIndex& index)
 {
 	QStandardItem *item = this->model->itemFromIndex(index);
+	indiceitemGOSelected = item->index();
 	QString goName = item->text();
+	goNameSelected = goName;
 	GameObject* go = this->GetActiveScene()->GetGameObjectByName(goName.toStdString());
 	this->goSelected = go;
 	ClearInterfaceComponent();

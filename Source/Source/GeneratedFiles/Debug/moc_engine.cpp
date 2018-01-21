@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Engine_t {
-    QByteArrayData data[18];
-    char stringdata0[223];
+    QByteArrayData data[21];
+    char stringdata0[274];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,27 +33,31 @@ QT_MOC_LITERAL(0, 0, 6), // "Engine"
 QT_MOC_LITERAL(1, 7, 16), // "AddNewGameObject"
 QT_MOC_LITERAL(2, 24, 0), // ""
 QT_MOC_LITERAL(3, 25, 15), // "AddNewComponent"
-QT_MOC_LITERAL(4, 41, 21), // "ShowContextMenuGOList"
-QT_MOC_LITERAL(5, 63, 3), // "pos"
-QT_MOC_LITERAL(6, 67, 24), // "ShowContextMenuComponent"
-QT_MOC_LITERAL(7, 92, 15), // "ExitApplication"
-QT_MOC_LITERAL(8, 108, 14), // "CreateNewScene"
-QT_MOC_LITERAL(9, 123, 6), // "Rotate"
-QT_MOC_LITERAL(10, 130, 9), // "OpenScene"
-QT_MOC_LITERAL(11, 140, 16), // "SaveCurrentScene"
-QT_MOC_LITERAL(12, 157, 13), // "SaveAllScenes"
-QT_MOC_LITERAL(13, 171, 11), // "SceneSwitch"
-QT_MOC_LITERAL(14, 183, 10), // "GOSelected"
-QT_MOC_LITERAL(15, 194, 5), // "index"
-QT_MOC_LITERAL(16, 200, 5), // "GetUI"
-QT_MOC_LITERAL(17, 206, 16) // "Ui::EngineClass*"
+QT_MOC_LITERAL(4, 41, 16), // "RemoveGameObject"
+QT_MOC_LITERAL(5, 58, 15), // "RemoveComponent"
+QT_MOC_LITERAL(6, 74, 17), // "ComponentSelected"
+QT_MOC_LITERAL(7, 92, 21), // "ShowContextMenuGOList"
+QT_MOC_LITERAL(8, 114, 3), // "pos"
+QT_MOC_LITERAL(9, 118, 24), // "ShowContextMenuComponent"
+QT_MOC_LITERAL(10, 143, 15), // "ExitApplication"
+QT_MOC_LITERAL(11, 159, 14), // "CreateNewScene"
+QT_MOC_LITERAL(12, 174, 6), // "Rotate"
+QT_MOC_LITERAL(13, 181, 9), // "OpenScene"
+QT_MOC_LITERAL(14, 191, 16), // "SaveCurrentScene"
+QT_MOC_LITERAL(15, 208, 13), // "SaveAllScenes"
+QT_MOC_LITERAL(16, 222, 11), // "SceneSwitch"
+QT_MOC_LITERAL(17, 234, 10), // "GOSelected"
+QT_MOC_LITERAL(18, 245, 5), // "index"
+QT_MOC_LITERAL(19, 251, 5), // "GetUI"
+QT_MOC_LITERAL(20, 257, 16) // "Ui::EngineClass*"
 
     },
     "Engine\0AddNewGameObject\0\0AddNewComponent\0"
-    "ShowContextMenuGOList\0pos\0"
-    "ShowContextMenuComponent\0ExitApplication\0"
-    "CreateNewScene\0Rotate\0OpenScene\0"
-    "SaveCurrentScene\0SaveAllScenes\0"
+    "RemoveGameObject\0RemoveComponent\0"
+    "ComponentSelected\0ShowContextMenuGOList\0"
+    "pos\0ShowContextMenuComponent\0"
+    "ExitApplication\0CreateNewScene\0Rotate\0"
+    "OpenScene\0SaveCurrentScene\0SaveAllScenes\0"
     "SceneSwitch\0GOSelected\0index\0GetUI\0"
     "Ui::EngineClass*"
 };
@@ -65,7 +69,7 @@ static const uint qt_meta_data_Engine[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -73,25 +77,31 @@ static const uint qt_meta_data_Engine[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   79,    2, 0x08 /* Private */,
-       3,    0,   80,    2, 0x08 /* Private */,
-       4,    1,   81,    2, 0x08 /* Private */,
-       6,    1,   84,    2, 0x08 /* Private */,
-       7,    0,   87,    2, 0x08 /* Private */,
-       8,    0,   88,    2, 0x08 /* Private */,
-       9,    0,   89,    2, 0x08 /* Private */,
-      10,    0,   90,    2, 0x08 /* Private */,
-      11,    0,   91,    2, 0x08 /* Private */,
-      12,    0,   92,    2, 0x08 /* Private */,
-      13,    0,   93,    2, 0x08 /* Private */,
-      14,    1,   94,    2, 0x08 /* Private */,
-      16,    0,   97,    2, 0x08 /* Private */,
+       1,    0,   94,    2, 0x08 /* Private */,
+       3,    0,   95,    2, 0x08 /* Private */,
+       4,    0,   96,    2, 0x08 /* Private */,
+       5,    0,   97,    2, 0x08 /* Private */,
+       6,    1,   98,    2, 0x08 /* Private */,
+       7,    1,  101,    2, 0x08 /* Private */,
+       9,    1,  104,    2, 0x08 /* Private */,
+      10,    0,  107,    2, 0x08 /* Private */,
+      11,    0,  108,    2, 0x08 /* Private */,
+      12,    0,  109,    2, 0x08 /* Private */,
+      13,    0,  110,    2, 0x08 /* Private */,
+      14,    0,  111,    2, 0x08 /* Private */,
+      15,    0,  112,    2, 0x08 /* Private */,
+      16,    0,  113,    2, 0x08 /* Private */,
+      17,    1,  114,    2, 0x08 /* Private */,
+      19,    0,  117,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QPoint,    5,
-    QMetaType::Void, QMetaType::QPoint,    5,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    2,
+    QMetaType::Void, QMetaType::QPoint,    8,
+    QMetaType::Void, QMetaType::QPoint,    8,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -99,8 +109,8 @@ static const uint qt_meta_data_Engine[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QModelIndex,   15,
-    0x80000000 | 17,
+    QMetaType::Void, QMetaType::QModelIndex,   18,
+    0x80000000 | 20,
 
        0        // eod
 };
@@ -113,17 +123,20 @@ void Engine::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: _t->AddNewGameObject(); break;
         case 1: _t->AddNewComponent(); break;
-        case 2: _t->ShowContextMenuGOList((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 3: _t->ShowContextMenuComponent((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 4: _t->ExitApplication(); break;
-        case 5: _t->CreateNewScene(); break;
-        case 6: _t->Rotate(); break;
-        case 7: _t->OpenScene(); break;
-        case 8: _t->SaveCurrentScene(); break;
-        case 9: _t->SaveAllScenes(); break;
-        case 10: _t->SceneSwitch(); break;
-        case 11: _t->GOSelected((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
-        case 12: { Ui::EngineClass* _r = _t->GetUI();
+        case 2: _t->RemoveGameObject(); break;
+        case 3: _t->RemoveComponent(); break;
+        case 4: _t->ComponentSelected((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 5: _t->ShowContextMenuGOList((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 6: _t->ShowContextMenuComponent((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 7: _t->ExitApplication(); break;
+        case 8: _t->CreateNewScene(); break;
+        case 9: _t->Rotate(); break;
+        case 10: _t->OpenScene(); break;
+        case 11: _t->SaveCurrentScene(); break;
+        case 12: _t->SaveAllScenes(); break;
+        case 13: _t->SceneSwitch(); break;
+        case 14: _t->GOSelected((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 15: { Ui::EngineClass* _r = _t->GetUI();
             if (_a[0]) *reinterpret_cast< Ui::EngineClass**>(_a[0]) = _r; }  break;
         default: ;
         }
@@ -155,13 +168,13 @@ int Engine::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 16)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 16;
     }
     return _id;
 }

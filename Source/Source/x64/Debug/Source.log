@@ -1,6 +1,2 @@
-﻿  Render.cpp
-Render.cpp(102): warning C4129: 'S': unrecognized character escape sequence
-Render.cpp(102): warning C4129: 's': unrecognized character escape sequence
-Render.cpp(103): warning C4129: 'S': unrecognized character escape sequence
-Render.cpp(103): warning C4129: 's': unrecognized character escape sequence
+﻿  engine.cpp
   Source.vcxproj -> C:\Users\User\Documents\GitHub\Moteur C++\Source\x64\Debug\Source.exe

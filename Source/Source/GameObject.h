@@ -5,7 +5,6 @@
 #include <qevent.h>
 #include "Component.h"
 
-
 class GameObject : public QObject
 {
 	Q_OBJECT // ATTENTION !!! Si ceci n'existe pas, ca provoque une vieille erreur de linkage par Qt qui ne comprends plus ce qu'est un signal
@@ -30,6 +29,8 @@ public:
 	void SetPivot(Point p);
 
 	std::string CheckTypeComponent(std::string name);
+	void RemoveComponent(Component* component);
+	Component* GameObject::GetComponentByName(std::string& name);
 
 public slots:
 	void SetXRotation(int angle);

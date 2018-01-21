@@ -178,7 +178,7 @@ void Scene::LoadDataFromFile()
 								{
 									if (l.first == "Component")
 									{
-										Component* component = new Component(NULL);
+										Component* component = new Component(go->GetListComponent().size());
 										BOOST_FOREACH(ptree::value_type const& b, l.second.get_child(""))
 										{
 											if (b.first == "type")
@@ -194,7 +194,6 @@ void Scene::LoadDataFromFile()
 					}
 
 					this->AddGameObject(go);
-					int dssd = 0;
 				}
 			}
 		}

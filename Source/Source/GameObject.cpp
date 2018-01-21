@@ -1,5 +1,5 @@
 #include "GameObject.h"
-
+//#include "Render.h"
 
 
 GameObject::GameObject(std::string name = "New GameObject", QObject* parent) : QObject(parent)
@@ -34,7 +34,7 @@ GameObject::GameObject(QObject* parent) : QObject(parent)
 
 GameObject::~GameObject(void)
 {
-	for(auto it = this->listComponent.begin(); it != this->listComponent.end(); ++it)
+	for (auto it = this->listComponent.begin(); it != this->listComponent.end(); ++it)
 	{
 		delete (*it);
 	}
@@ -68,12 +68,40 @@ std::string GameObject::CheckTypeComponent(std::string type)
 
 std::vector<Component*> GameObject::GetListComponent()
 {
+	
+	//Render::getInstance()->mutex.lock();
 	return this->listComponent;
+	//Render::getInstance()->mutex.unlock();
 }
 
 void GameObject::AddComponent(Component* component)
 {
 	this->listComponent.push_back(component);
+}
+
+void GameObject::RemoveComponent(Component* component)
+{
+	for (int i = 0; i < this->listComponent.size(); ++i)
+	{
+		if (this->listComponent[i] == component)
+		{
+			this->listComponent.erase(this->listComponent.begin() + i);
+		}
+	}
+}
+
+Component* GameObject::GetComponentByName(std::string& name)
+{
+
+	for (auto it = this->listComponent.begin(); it != this->listComponent.end(); ++it)
+	{
+		if ((*it)->GetCompleteName().compare(name) == 0)
+		{
+			return (*it);
+		}
+	}
+
+	return NULL;
 }
 
 void GameObject::SetXRotation(int angle)
