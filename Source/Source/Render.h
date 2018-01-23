@@ -9,6 +9,8 @@
 #include <QMenu>
 #include <qevent.h>
 #include <mutex>
+#include <QMutex>
+#include <QThread>
 #include "Scene.h"
 #include "Vertex.h"
 
@@ -36,7 +38,7 @@ public:
 	void SetCurrentSceneRendered(Scene* s);
 
 
-	std::mutex mutex;
+	QMutex* mutex;
 // en public pour la simple raison qu'elle est utilisé dans engine.cpp et que cet un enum déclaré dans Render donc impossible avec des accesseurs
 
 protected:
@@ -48,9 +50,9 @@ protected:
 	void mouseDoubleClickEvent(QMouseEvent *event);
 
 private:
-	void drawCube(Component::Point& position, bool isSelected);
-	void drawTriangle(Component::Point& position, bool isSelected);
-	void drawSphere(Component::Point& position, bool isSelected);
+	void drawCube(Component* comp);
+	void drawTriangle(Component* comp);
+	void drawSphere(Component* comp);
 
 	// TEST CUBE
 	int faceAtPosition(const QPoint &pos);

@@ -20,6 +20,18 @@ Scene::~Scene(void)
 
 }
 
+void Scene::RemoveGameObject(GameObject* go)
+{
+	for (int i = 0; i < this->listGameObject.size(); ++i)
+	{
+		if (this->listGameObject[i] == go)
+		{
+			this->listGameObject.erase(this->listGameObject.begin() + i);
+			break;
+		}
+	}
+}
+
 std::string Scene::GetName()
 {
 	return this->m_name;
@@ -179,20 +191,48 @@ void Scene::LoadDataFromFile()
 									if (l.first == "Component")
 									{
 										Component* component = new Component(go->GetListComponent().size());
+										Component::Point p;
+										p.x = 0.f, p.y = 0.f, p.z = 0.f;
 										BOOST_FOREACH(ptree::value_type const& b, l.second.get_child(""))
 										{
 											if (b.first == "type")
 											{
 												component->SetType(b.second.data());
 											}
+											else if (b.first == "pivotX")
+											{
+												p.x = std::atof(b.second.data().c_str());
+											}
+											else if (b.first == "pivotY")
+											{
+												p.y = std::atof(b.second.data().c_str());
+											}
+											else if (b.first == "pivotZ")
+											{
+												p.z = std::atof(b.second.data().c_str());
+												component->SetPosition(p.x, p.y, p.z);
+											}
+											else if (b.first == "rotateX")
+											{
+												component->rotateX = std::atof(b.second.data().c_str());
+											}
+											else if (b.first == "rotateY")
+											{
+												component->rotateY = std::atof(b.second.data().c_str());
+											}
+											else if (b.first == "rotateZ")
+											{
+												component->rotateZ = std::atof(b.second.data().c_str());
+											}
 										}
 										go->AddComponent(component);
+										CLog::getInstance()->Write("Scene - " + this->GetName() + "-- GameObject - " + go->GetName(), "Add Component", component->GetCompleteName());
 									}
 								}
 							}
 						}
 					}
-
+					CLog::getInstance()->Write("Scene - " + this->GetName(), "Add GO", go->GetName());
 					this->AddGameObject(go);
 				}
 			}

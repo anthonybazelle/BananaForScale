@@ -4,6 +4,7 @@
 #include <vector>
 #include <qevent.h>
 #include "Component.h"
+#include "Log.h"
 
 class GameObject : public QObject
 {

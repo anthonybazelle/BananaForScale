@@ -86,21 +86,23 @@ void GameObject::RemoveComponent(Component* component)
 		if (this->listComponent[i] == component)
 		{
 			this->listComponent.erase(this->listComponent.begin() + i);
+			break;
 		}
 	}
 }
 
 Component* GameObject::GetComponentByName(std::string& name)
 {
-
-	for (auto it = this->listComponent.begin(); it != this->listComponent.end(); ++it)
+	if (this != NULL)
 	{
-		if ((*it)->GetCompleteName().compare(name) == 0)
+		for (auto it = this->listComponent.begin(); it != this->listComponent.end(); ++it)
 		{
-			return (*it);
+			if ((*it)->GetCompleteName().compare(name) == 0)
+			{
+				return (*it);
+			}
 		}
 	}
-
 	return NULL;
 }
 

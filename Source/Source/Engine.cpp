@@ -89,24 +89,34 @@ void Engine::HideEditWindow()
 
 void Engine::ComponentSelected(int index)
 {
-	Render::getInstance()->mutex.lock();
-
-	for (int i = 0; i < ui.componentToolBox->count(); ++i)
+	if (index != -1)
 	{
-		QString name = ui.componentToolBox->itemText(i);
-		Component* comp = this->goSelected->GetComponentByName(name.toStdString());
-		if (comp->GetIsSelected())
+		Render::getInstance()->mutex->lock();
+
+		int count = ui.componentToolBox->count();
+		for (int i = 0; i < ui.componentToolBox->count(); ++i)
 		{
-			comp->SetIsSelected(false);
-			break;
+			QString name = ui.componentToolBox->itemText(i);
+			Component* comp = this->goSelected->GetComponentByName(name.toStdString());
+			if (comp != NULL)
+			{
+				if (comp->GetIsSelected())
+				{
+					comp->SetIsSelected(false);
+					break;
+				}
+			}
 		}
+
+		QString name = ui.componentToolBox->itemText(index);
+		Component* comp = this->goSelected->GetComponentByName(name.toStdString());
+		if (comp != NULL)
+		{
+			comp->SetIsSelected(true);
+		}
+
+		Render::getInstance()->mutex->unlock();
 	}
-
-	QString name = ui.componentToolBox->itemText(index);
-	Component* comp = this->goSelected->GetComponentByName(name.toStdString());
-	comp->SetIsSelected(true);
-
-	Render::getInstance()->mutex.unlock();
 }
 
 void Engine::CreateNewScene()
@@ -156,6 +166,8 @@ void Engine::ShowContextMenuGOList(const QPoint &pos)
 void Engine::RemoveGameObject()
 {
 	bool res = this->model->removeRow(indiceitemGOSelected.row());
+	GameObject* go = this->GetActiveScene()->GetGameObjectByName(goNameSelected.toStdString());
+	GetActiveScene()->RemoveGameObject(go);
 }
 
 void Engine::RemoveComponent()
@@ -171,13 +183,14 @@ void Engine::AddNewGameObject()
 {
 	GameObject* newGo = new GameObject(GetActiveScene()->CheckName("New Game Object"));
 	GetActiveScene()->AddGameObject(newGo);
+	CLog::getInstance()->Write("Scene - " + GetActiveScene()->GetName(), "Add GO", newGo->GetName());
 	ClearInterfaceGO();
 	LoadGOListInterface(GetActiveScene()->GetName());
 }
 
 void Engine::AddNewComponent()
 {
-	Render::getInstance()->mutex.lock();
+	//Render::getInstance()->mutex->lock();
 	QStringList listType;
 	listType << "Cube" << "Sphere" << "Triangle";
 	QString typeChoice = QInputDialog::getItem(this, "Select a type of component :", "Type : ", listType);
@@ -186,7 +199,8 @@ void Engine::AddNewComponent()
 	this->goSelected->AddComponent(newComponent);
 	ClearInterfaceComponent();
 	LoadComponentListInterface(GetActiveScene(), this->goSelected->GetName());
-	Render::getInstance()->mutex.unlock();
+	CLog::getInstance()->Write("Scene - " + GetActiveScene()->GetName() + "-- GameObject - " + this->goSelected->GetName(), "Add Component", newComponent->GetCompleteName());
+	//Render::getInstance()->mutex->unlock();
 }
 
 void Engine::ShowContextMenuComponent(const QPoint &pos)
@@ -319,7 +333,7 @@ void Engine::LoadGOListInterface(std::string& sceneName)
 
 void Engine::LoadComponentListInterface(Scene* scene, std::string& goName)
 {
-	Render::getInstance()->mutex.lock();
+	//Render::getInstance()->mutex->lock();
 
 	GameObject* go = scene->GetGameObjectByName(goName);
 
@@ -329,7 +343,7 @@ void Engine::LoadComponentListInterface(Scene* scene, std::string& goName)
 		ui.componentToolBox->addItem(newPage, QString((std::to_string(go->GetListComponent()[i]->GetId()) + " - " + go->GetListComponent()[i]->GetType()).c_str()));
 	}
 
-	Render::getInstance()->mutex.unlock();
+	//Render::getInstance()->mutex->unlock();
 }
 
 void Engine::SceneSwitch()
@@ -349,7 +363,7 @@ void Engine::SceneSwitch()
 
 void Engine::SaveCurrentScene()
 {
-	Render::getInstance()->mutex.lock();
+	//Render::getInstance()->mutex->lock();
 	// TODO : Serialiser dans un XML les gameObjects de la Scene affiche dans le Render de l'engine, ainsi que leur position (du point de pivot deja)
 	Scene* scene = this->GetActiveScene();
 
@@ -396,6 +410,12 @@ void Engine::SaveCurrentScene()
 		{
 			fileScene << "\t\t\t\t<Component>\n";
 			fileScene << "\t\t\t\t\t<type>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->GetType() << "</type>\n";
+			fileScene << "\t\t\t\t\t<pivotX>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->worldPosition.x << "</pivotX>\n";
+			fileScene << "\t\t\t\t\t<pivotY>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->worldPosition.y << "</pivotY>\n";
+			fileScene << "\t\t\t\t\t<pivotZ>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->worldPosition.z << "</pivotZ>\n";
+			fileScene << "\t\t\t\t\t<rotateX>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->rotateX << "</rotateX>\n";
+			fileScene << "\t\t\t\t\t<rotateY>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->rotateY << "</rotateY>\n";
+			fileScene << "\t\t\t\t\t<rotateZ>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->rotateZ << "</rotateZ>\n";
 			fileScene << "\t\t\t\t</Component>\n";
 		}
 		
@@ -407,7 +427,7 @@ void Engine::SaveCurrentScene()
 	fileScene << "</Scene>\n";
 
 	fileScene.close();
-	Render::getInstance()->mutex.unlock();
+	//Render::getInstance()->mutex->unlock();
 
 	QMessageBox msgBox;
 	msgBox.setText(tr("The scene has been saved succesfuly."));
@@ -416,7 +436,7 @@ void Engine::SaveCurrentScene()
 
 void Engine::SaveAllScenes()
 {
-	Render::getInstance()->mutex.lock();
+	Render::getInstance()->mutex->lock();
 
 	for (int iScene = 0; iScene < this->listScene.size(); ++iScene)
 	{
@@ -474,6 +494,12 @@ void Engine::SaveAllScenes()
 			{
 				fileScene << "\t\t\t\t<Component>\n";
 				fileScene << "\t\t\t\t\t<type>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->GetType() << "</type>\n";
+				fileScene << "\t\t\t\t\t<pivotX>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->worldPosition.x << "</pivotX>\n";
+				fileScene << "\t\t\t\t\t<pivotY>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->worldPosition.y << "</pivotY>\n";
+				fileScene << "\t\t\t\t\t<pivotZ>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->worldPosition.z << "</pivotZ>\n";
+				fileScene << "\t\t\t\t\t<rotateX>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->rotateX << "</rotateX>\n";
+				fileScene << "\t\t\t\t\t<rotateY>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->rotateY << "</rotateY>\n";
+				fileScene << "\t\t\t\t\t<rotateZ>" << scene->GetListGameObject()[i]->GetListComponent()[iComp]->rotateZ << "</rotateZ>\n";
 				fileScene << "\t\t\t\t</Component>\n";
 			}
 
@@ -487,7 +513,7 @@ void Engine::SaveAllScenes()
 		fileScene.close();
 	}
 
-	Render::getInstance()->mutex.unlock();
+	Render::getInstance()->mutex->unlock();
 
 	QMessageBox msgBox;
 	msgBox.setText(tr("All opened scene have been saved succesfuly."));

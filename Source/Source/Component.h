@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include <string>
 #include "Material.h"
-
+#include "Log.h"
 
 class Component
 {
@@ -26,7 +26,7 @@ public:
 	void SetPivot(Point p);
 	int GetId();
 	Component::Point GetPosition();
-	void SetPosition(Point pos);
+	void SetPosition(float x, float y, float z);
 	std::string GetCompleteName();
 	bool GetIsSelected() const;
 	void SetIsSelected(bool b);
@@ -34,12 +34,12 @@ public:
 	float scaleX, scaleY, scaleZ;
 	float translateX, translateY, translateZ;
 	float rotateX, rotateY, rotateZ;
+	Point worldPosition;
 
 private:
 	Material* material;
 	std::string type;
 	Point pivot;
-	Point worldPosition;
 	int id;
 	bool isSelected;
 	std::string completeName;

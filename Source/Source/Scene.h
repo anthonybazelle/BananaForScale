@@ -7,7 +7,7 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include "GameObject.h"
-
+#include "Log.h"
 
 class Scene
 {
@@ -22,6 +22,7 @@ public:
 	void SetName(std::string name);
 	std::vector<GameObject*> GetListGameObject();
 	GameObject* GetGameObjectByName(std::string& name);
+	void RemoveGameObject(GameObject* go);
 	void AddGameObject(GameObject* go);
 	std::string CheckName(std::string name);
 

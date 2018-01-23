@@ -44,11 +44,11 @@ void Component::SetIsSelected(bool b)
 	this->isSelected = b;
 }
 
-void Component::SetPosition(Point pos)
+void Component::SetPosition(float x, float y, float z)
 {
-	this->worldPosition.x = pos.x;
-	this->worldPosition.y = pos.y;
-	this->worldPosition.z = pos.z;
+	this->worldPosition.x = x;
+	this->worldPosition.y = y;
+	this->worldPosition.z = z;
 }
 
 std::string Component::GetCompleteName()
@@ -60,7 +60,7 @@ void Component::SetType(std::string t)
 {
 	if (this->completeName == "")
 	{
-		this->completeName = this->id + " - " + t;
+		this->completeName = std::to_string(this->id) + " - " + t;
 	}
 
 	this->type = t;
