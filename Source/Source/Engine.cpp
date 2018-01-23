@@ -436,7 +436,6 @@ void Engine::SaveCurrentScene()
 
 void Engine::SaveAllScenes()
 {
-	Render::getInstance()->mutex->lock();
 
 	for (int iScene = 0; iScene < this->listScene.size(); ++iScene)
 	{
@@ -512,8 +511,6 @@ void Engine::SaveAllScenes()
 
 		fileScene.close();
 	}
-
-	Render::getInstance()->mutex->unlock();
 
 	QMessageBox msgBox;
 	msgBox.setText(tr("All opened scene have been saved succesfuly."));
